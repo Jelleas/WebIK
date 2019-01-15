@@ -18,30 +18,5 @@
       <th scope="col">Total</th>
     </tr>
   </thead>
-  <tbody>
-    {% for stock in stocks[0]%}
-          <tr>
-      <th scope="row">{{stock['Symbol']}}</th>
-      <td>{{stock['Name']}}</td>
-      <td>{{stock['Share']}}</td>
-      <td>{{stock['Price']}}</td>
-      <td>{{stock['Total']}}</td>
-        </tr>
-    {% endfor %}
-          <tr>
-    <th scope="row">CASH</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>{{stocks[1]}}</td>
-              </tr>
-              <td></td>
-                            <td></td>
-
-      <td></td>
-      <td></td>
-      <td>{{stocks[2]}}</td>
-              </tr>
-  </tbody>
 </table>
 {% endblock %}

@@ -21,9 +21,6 @@ if app.config["DEBUG"]:
         response.headers["Pragma"] = "no-cache"
         return response
 
-# custom filter
-app.jinja_env.filters["usd"] = usd
-
 # configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
@@ -61,7 +58,7 @@ def login():
 
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return apology("invalid username and/or password")
+            return ("username does not exist")
 
         # remember which user has logged in
         session["user_id"] = rows[0]["id"]
