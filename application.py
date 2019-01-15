@@ -9,8 +9,6 @@ import locale
 from re import sub
 from decimal import Decimal
 
-
-
 # configure application
 app = Flask(__name__)
 
@@ -38,7 +36,7 @@ db = SQL("sqlite:///trivia.db")
 @app.route("/")
 @login_required
 def index():
-        return "todo"
+        return render_template("index.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -88,6 +86,21 @@ def logout():
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
 def quote():
+    return "todo"
+
+@app.route("/buy", methods=["GET", "POST"])
+@login_required
+def buy():
+    return "todo"
+
+@app.route("/sell", methods=["GET", "POST"])
+@login_required
+def sell():
+    return "todo"
+
+@app.route("/history", methods=["GET", "POST"])
+@login_required
+def history():
     return "todo"
 
 @app.route("/register", methods=["GET", "POST"])
