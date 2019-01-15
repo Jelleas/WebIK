@@ -9,7 +9,7 @@ import random
 from cs50 import SQL
 import ast
 
-db = SQL("sqlite:///geo_guru.db")
+db = SQL("sqlite:///trivia.db")
 
 def create_game(player1_id, player2_id):
 
