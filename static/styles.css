@@ -1,8 +1,16 @@
 body {
-    background-image: url("world2.jpg");
+    background-image: url("world3.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+
+      /* Full height */
+      height: 100%;
+
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 }
 
 .container
