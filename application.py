@@ -144,12 +144,24 @@ def play():
     else:
         if request.form.get("answer") == game["correct_answer"]:
             score += 1
-            print(score)
             return redirect(url_for('play'))
         else:
-        # if score NULL
-            db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=1)
-            score = 0
-            return "jammer pik"
+            to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=1)[0]["score"]
+            print(to_beat)
+            if not to_beat:
+                db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=1)[0]["score"]
+                score = 0
+                return "jammer pik"
+            else:
+                if to_beat > score:
+                    score = 0
+                    return "verloren"
+                elif to_beat < score:
+                    score = 0
+                    return "gewonnen"
+                elif to_beat == score:
+                    score = 0
+                    return "gelijkspel"
+
         # anders checken of de score hoger is dan degene die er nu staat
             # persoon met de hoogste score wint
