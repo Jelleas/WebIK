@@ -22,17 +22,23 @@
     <body>
         <div class="container">
             {% if session.user_id %}
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="{{ url_for('index') }}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="{{ url_for('register') }}">Profile</a>
-              </li>
-            </ul>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+              <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarColor03">
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('index') }}">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Homepage</button>
+                </form>
+                <form class="form-inline my-2 my-lg-0 "nav navbar-nav navbar-right"" action="{{ url_for('quote') }}">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Quote</button>
+                </form>
+              </div>
+            </nav>
             {% else %}
             <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-              <a class="navbar-brand" href="{{ url_for('index') }}"><span class="blue">G</span><span class="red">e</span><span class="yellow">o</span><span class="green">g</span> <span class="red">raphy Guru</span></a>
+              <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
