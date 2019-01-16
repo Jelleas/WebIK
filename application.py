@@ -135,8 +135,20 @@ score = 0
 @app.route("/play", methods=["GET", "POST"])
 @login_required
 def play():
+    global score
+    game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=1)[0]["questions"])["results"][score]
     if request.method == "GET":
-        game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=1)[0]["questions"])["results"][0]
         question = game["question"]
         answers = (game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2])
         return render_template("play.html", question=question, answers=answers)
+    else:
+        if request.form.get("answer") == game["correct_answer"]:
+            score += 1
+            print(score)
+            return redirect(url_for('play'))
+        else:
+            # if score not NULL
+            db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=1)
+            score = 0
+            return "jammer pik"
+            # anders checken of de score hoger is dan degene die er nu staat

@@ -11,7 +11,9 @@
     </form>
     {{ question }}
     {% for answer in answers %}
-        <button name="{{ answer }}">{{ answer }}</button>
+        <form action="{{ url_for('play') }}">
+            <button value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer }}</button>
+        </form>
     {% endfor %}
 </table>
 {% endblock %}
