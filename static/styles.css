@@ -3,14 +3,19 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    text-align: center;
 
-      /* Full height */
-      height: 100%;
+    /* Full height */
+    height: 100%;
 
-      /* Center and scale the image nicely */
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    /* Center and scale the image nicely */
+    background-size: cover;
+
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+
 }
 
 .container
