@@ -147,8 +147,9 @@ def play():
             print(score)
             return redirect(url_for('play'))
         else:
-            # if score not NULL
+        # if score NULL
             db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=1)
             score = 0
             return "jammer pik"
-            # anders checken of de score hoger is dan degene die er nu staat
+        # anders checken of de score hoger is dan degene die er nu staat
+            # persoon met de hoogste score wint
