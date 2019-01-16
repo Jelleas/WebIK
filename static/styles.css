@@ -10,12 +10,11 @@ body {
 
     /* Center and scale the image nicely */
     background-size: cover;
+}
 
-    margin: auto;
-    width: 50%;
-    border: 3px solid green;
-    padding: 10px;
-
+html, body {
+    margin: 0;
+    height: 100%;
 }
 
 .container
@@ -26,22 +25,55 @@ body {
     text-align: center;
 }
 
-/* colors for navbar */
-.navbar-default .navbar-brand .blue
+.test
 {
-    color: #537fbe;
+    /* gets box ot align in middle of page*/
+    margin: auto;
+    border: 3px black;
+    padding: 10px;
+    width: 400px;
+    height: 200px;
+    background: rgb(60,133,198);
+    vertical-align: middle;
+    line-height: 50px;
+    overflow:hidden;
+
+    position:absolute; /*it can be fixed too*/
+    left:0; right:0;
+    top:0; bottom:0;
+    margin:auto;
+
+    /*this to solve "the content will not be cut when the window is smaller than the content": */
+    max-width:100%;
+    max-height:100%;
+    text-align: center;
+    /*opacity: 0.5;*/
+
 }
-.navbar-default .navbar-brand .red
-{
-    color: #ea433b;
+
+.navbar {
+  min-height: 100px;
 }
-.navbar-default .navbar-brand .yellow
-{
-    color: #f5b82e;
+
+.navbar-brand {
+  padding: 0 15px;
+  height: 80px;
+  line-height: 80px;
 }
-.navbar-default .navbar-brand .green
-{
-    color: #2e944b;
+
+.navbar-toggle {
+  /* (80px - button height 34px) / 2 = 23px */
+  margin-top: 23px;
+  padding: 9px 10px !important;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    /* (80px - line-height of 27px) / 2 = 26.5px */
+    padding-top: 26.5px;
+    padding-bottom: 26.5px;
+    line-height: 27px;
+  }
 }
 
 main .form-control
