@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    play
+{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('play') }}" method="post">
+        <fieldset>
+        </fieldset>
+    </form>
+    {{ question }}
+    {% for answer in answers %}
+        <button name="{{ answer }}">{{ answer }}</button>
+    {% endfor %}
+</table>
+{% endblock %}

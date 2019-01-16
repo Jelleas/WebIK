@@ -129,3 +129,14 @@ def register():
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
+
+score = 0
+
+@app.route("/play", methods=["GET", "POST"])
+@login_required
+def play():
+    if request.method == "GET":
+        game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=1)[0]["questions"])["results"][0]
+        question = game["question"]
+        answers = (game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2])
+        return render_template("play.html", question=question, answers=answers)
