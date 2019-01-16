@@ -6,6 +6,7 @@
 
 {% block main %}
     <form action="{{ url_for('register') }}" method="post">
+        <div class = test>
         <fieldset>
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
@@ -20,5 +21,6 @@
                 <button class="btn btn-default" type="submit">Register</button>
             </div>
         </fieldset>
+        </div>
     </form>
 {% endblock %}

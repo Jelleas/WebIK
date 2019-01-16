@@ -7,16 +7,16 @@
 {% block main %}
 <span class="badge badge-danger">Just a tip: Go to the history tab to add $10.000 to your balance!</span>
 
-<table class="table table-striped" action="{{ url_for('index') }}" method="get">
-    <caption>All your current stocks</caption>
-  <thead>
-    <tr>
-      <th scope="col">Symbol</th>
-      <th scope="col">Name</th>
-      <th scope="col">Shares</th>
-      <th scope="col">Price</th>
-      <th scope="col">Total</th>
-    </tr>
-  </thead>
-</table>
+<h2>Two Unequal Columns</h2>
+
+<div class="row">
+  <div class="column left" style="background-color:#aaa;">
+    <h2>Column 1</h2>
+    <p>Some text..</p>
+  </div>
+  <div class="column right" style="background-color:#bbb;">
+    <h2>Column 2</h2>
+    <p>Some text..</p>
+  </div>
+</div>
 {% endblock %}

@@ -22,22 +22,28 @@
     <body class="wrapper">
         <div class="container">
             {% if session.user_id %}
-            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-              <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarColor03">
-                <form class="form-inline my-2 my-lg-0" action="{{ url_for('index') }}">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Homepage</button>
-                </form>
-                <form class="form-inline my-2 my-lg-0 "nav navbar-nav navbar-right"" action="{{ url_for('quote') }}">
-                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Quote</button>
-                </form>
-                <form class="form-inline my-2 my-lg-0 "nav navbar-nav navbar-right"" action="{{ url_for('play') }}">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Play!</button>
-                </form>
-              </div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor02">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active" action="{{ url_for('index') }}">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Play game</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Current games</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
+              </form>
+            </div>
             </nav>
             {% else %}
             <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3c85c6">
