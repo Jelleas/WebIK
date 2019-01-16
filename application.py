@@ -8,6 +8,8 @@ from helpers import *
 import locale
 from re import sub
 from decimal import Decimal
+import random
+from jinja2 import Environment, PackageLoader
 
 # configure application
 app = Flask(__name__)
@@ -116,7 +118,7 @@ def register():
             return apology("must provide confirmation")
         elif request.form.get("confirmation")!=request.form.get("password"):
                 return apology("passwords don't match up")
-        # check to see whether username already existst
+        # check to see whether username already exists
         elif len(db.execute("SELECT id FROM users WHERE username = :usr;", usr=request.form.get("username"))):
                 return apology("username already exists")
         # query database for username
@@ -131,28 +133,37 @@ def register():
         return render_template("register.html")
 
 score = 0
+game_id = 0
 
 @app.route("/play", methods=["GET", "POST"])
 @login_required
 def play():
+    # maak variabelen aan
     global score
+    global game_id
     game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=1)[0]["questions"])["results"][score]
+
+    # haal de vragen en antwoorden op voor de huidige game
     if request.method == "GET":
         question = game["question"]
-        answers = (game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2])
+        answers = [game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2]]
+        random.shuffle(answers)
         return render_template("play.html", question=question, answers=answers)
     else:
+    # als de gebruiker het goede antwoord geeft, verhoog de score
         if request.form.get("answer") == game["correct_answer"]:
             score += 1
             return redirect(url_for('play'))
         else:
+            # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
             to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=1)[0]["score"]
-            print(to_beat)
             if not to_beat:
+                # als de gebruiker de eerste is die speelt, sla zijn score op
                 db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=1)[0]["score"]
                 score = 0
                 return "jammer pik"
             else:
+                # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
                 if to_beat > score:
                     score = 0
                     return "verloren"
@@ -162,6 +173,3 @@ def play():
                 elif to_beat == score:
                     score = 0
                     return "gelijkspel"
-
-        # anders checken of de score hoger is dan degene die er nu staat
-            # persoon met de hoogste score wint
