@@ -49,12 +49,10 @@ def login():
     if request.method == "POST":
         # ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username")
-
+            return redirect(url_for("login_error"))
         # ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password")
-
+            return redirect(url_for("login_error"))
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
@@ -82,25 +80,6 @@ def logout():
     # redirect user to login form
     return redirect(url_for("login"))
 
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    return "todo"
-
-@app.route("/buy", methods=["GET", "POST"])
-@login_required
-def buy():
-    return "todo"
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    return "todo"
-
-@app.route("/history", methods=["GET", "POST"])
-@login_required
-def history():
-    return "todo"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

@@ -15,7 +15,7 @@ def create_game(player1_id, player2_id):
 
     # haal vragen op
     vragen = requests.get("https://opentdb.com/api.php?amount=50&category=22&type=multiple")
-    # zet ze in json
+    # zet vragen in json
     json = vragen.json()
     # insert de benodigde gegevens in de database
     db.execute("INSERT INTO games (player1_id, player2_id, score, questions) VALUES (:player1_id, :player2_id, :score, :questions)", player1_id=player1_id, player2_id=player2_id, score=0, questions=str(json))
