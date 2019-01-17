@@ -5,21 +5,11 @@
 {% endblock %}
 
 {% block main %}
-<<<<<<< HEAD
-<h2>Two Unequal Columns</h2>
-
-=======
-<<<<<<< HEAD
-
-<h2>Two Unequal Columns</h2>
-
-=======
->>>>>>> eaa14ca4f52645bfa30b38202430ecf268272e32
->>>>>>> 25282018afa7036e5f4d4d6b9284fdb11344598c
+<h2>Rij</h2>
 <div class="row">
   <div class="column left">
     <div class="form-group">
-    <label for="exampleTextarea">Welkom</label>
+    <b><label for="exampleTextarea"><h1>Welkom</h1></label></b>
     <div class = "box">
     <textarea class="form-control" id="exampleTextarea" rows="10" cols="70" align="middle">Welcome to Geography Guru!
       Geography Guru is the game to test whether your geography knowledge is up to standards.
@@ -29,8 +19,41 @@
     </div>
   </div>
   <div class="column right">
-    <h2>Column 2</h2>
-    <p>Some text..</p>
+    <b><label for="exampleTextarea"><h1>Current Games</h1></label></b>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">Column heading</th>
+          <th scope="col">Column heading</th>
+          <th scope="col">Column heading</th>
+        </tr>
+      </thead>
+        <tr class="table-secondary">
+          <th scope="row">Secondary</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-success">
+          <th scope="row">Success</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-danger">
+          <th scope="row">Danger</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-warning">
+          <th scope="row">Warning</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+    </thead>
   </div>
 </div>
 {% endblock %}

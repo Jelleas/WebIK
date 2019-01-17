@@ -15,6 +15,7 @@ body {
 html, body {
     margin: 0;
     height: 100vh;
+    overflow: hidden
 }
 
 .container
@@ -57,6 +58,7 @@ html, body {
   border: 0px solid #fff;
   text-align: center;
 
+
 }
 
 .navbar-brand {
@@ -75,6 +77,9 @@ html, body {
   padding: 9px 10px;
 }
 
+.navbar navbar-expand-lg navbar-light{
+  background-color: red;
+}
 @media (min-width: 768px) {
   .navbar-nav > li > a {
     /* (80px - line-height of 27px) / 2 = 26.5px */
@@ -119,23 +124,23 @@ html, body {
   }
 }
 
-main .form-control
-{
+/*main .form-control*/
+/*{*/
     /* center form controls */
-    display: inline-block;
+/*    display: inline-block;*/
 
     /* override Bootstrap's 100% width for form controls */
-    width: auto;
-}
+/*    width: auto;*/
+/*}*/
 
-main img
-{
+/*main img*/
+/*{*/
     /* constrain images on small screens */
-    max-width: 100%;
-}
+/*    max-width: 100%;*/
+/*}*/
 
-main td
-{
+/*main td*/
+/*{*/
     /* left-align tables' cells */
-    text-align: left;
-}
+/*    text-align: left;*/
+/*}*/
