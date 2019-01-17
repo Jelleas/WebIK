@@ -124,6 +124,7 @@ def play():
     global game_id
     game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=game_id)[0]["questions"])["results"][score]
     players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
+    to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
 
     # haal de vragen en antwoorden op voor de huidige game
     if request.method == "GET":
@@ -135,7 +136,7 @@ def play():
             opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player2_id"])[0]["username"]
         elif session.get("user_id") == players[0]["player2_id"]:
             opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player1_id"])[0]["username"]
-        return render_template("play.html", question=question, answers=answers, score=score, opponent=opponent)
+        return render_template("play.html", question=question, answers=answers, score=to_beat, opponent=opponent)
     else:
         if score >= 50:
             db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
@@ -148,7 +149,6 @@ def play():
                 return redirect(url_for('play'))
             else:
                 # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
-                to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
                 if not to_beat:
                     # als de gebruiker de eerste is die speelt, sla zijn score op
                     db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)

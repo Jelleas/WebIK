@@ -16,7 +16,9 @@
         </form>
     {% endfor %}
     <div>
-        score to beat: {{ score }}
+        {% if score %}
+            score to beat: {{ score }}
+        {% endif %}
         <br>
         playing against: {{ opponent }}
     </div>
