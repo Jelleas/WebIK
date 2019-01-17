@@ -40,7 +40,8 @@ def index():
 
     if rows or rows2:
         return render_template("index.html", current = rows, current2 = rows2)
-
+    else:
+        return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

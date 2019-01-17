@@ -27,19 +27,22 @@
           <th scope="col"></th>
         </tr>
       </thead>
-
-        {% for now in current %}
-        <tr class="table-info">
-          <td>{{ now.score }}</td>
-          <td>{{ now.status }}</td>
-        </tr>
-        {% endfor %}
-        {% for now in current2 %}
-        <tr class="table-info">
-          <td>{{ now.score }}</td>
-          <td>{{ now.status }}</td>
-        </tr>
-        {% endfor %}
+      {% if current or current2 %}
+          {% for now in current %}
+            <tr class="table-info">
+              <td>{{ now.score }}</td>
+              <td colspan="2">{{ now.status }}</td>
+            </tr>
+          {% endfor %}
+          {% for now in current2 %}
+            <tr class="table-info">
+              <td colspan="2">{{ now.score }}</td>
+              <td>{{ now.status }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <td colspan="3">No current games :(</td>
+        {% endif %}
     </thead>
   </div>
 </div>
