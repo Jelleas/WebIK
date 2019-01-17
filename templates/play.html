@@ -9,12 +9,12 @@
         <fieldset>
         </fieldset>
     </form>
-    {{ question|safe }}
+
+    <p>{{ question }}<p/>
     {% for answer in answers %}
-        <form action="{{ url_for('play') }}">
-            <button value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer|safe }}</button>
-        </form>
+        <button class="{{ loop.index }}">{{ answer }}</button>
     {% endfor %}
+
     <div>
         {% if score %}
             score to beat: {{ score }}
@@ -23,4 +23,5 @@
         playing against: {{ opponent }}
     </div>
 </table>
+
 {% endblock %}

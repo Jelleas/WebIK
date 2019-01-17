@@ -135,6 +135,7 @@ html, body {
   }
 }
 
+<<<<<<< HEAD
 .form{
     width: 50%;
 }
@@ -158,4 +159,81 @@ main td
 {
      /*left-align tables' cells*/
     text-align: left;
+=======
+/*main .form-control*/
+/*{*/
+    /* center form controls */
+/*    display: inline-block;*/
+
+    /* override Bootstrap's 100% width for form controls */
+/*    width: auto;*/
+/*}*/
+
+/*main img*/
+/*{*/
+    /* constrain images on small screens */
+/*    max-width: 100%;*/
+/*}*/
+
+/*main td*/
+/*{*/
+    /* left-align tables' cells */
+/*    text-align: left;*/
+/*}*/
+
+
+p {
+  color: white;
+  font-size: 30px;
+  font-variant: normal;
+  font-family: arial;
+}
+
+[class="1"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: yellow;
+  position: fixed;
+  top: 45%;
+  left: 55%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="2"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: cyan;
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="3"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: red;
+  position: fixed;
+  top: 55%;
+  left: 55%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="4"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: green;
+  position: fixed;
+  top: 55%;
+  left: 45%;
+  margin-top: -50px;
+  margin-left: -100px;
+>>>>>>> 2790433441ec506c91457c20961fe52ac9efc1ad
 }
