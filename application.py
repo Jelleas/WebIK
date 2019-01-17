@@ -114,7 +114,7 @@ def register():
         return render_template("register.html")
 
 score = 0
-game_id = 1
+game_id = 0
 
 @app.route("/play", methods=["GET", "POST"])
 @login_required
@@ -140,7 +140,7 @@ def play():
             to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
             if not to_beat:
                 # als de gebruiker de eerste is die speelt, sla zijn score op
-                db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)[0]["score"]
+                db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
                 score = 0
                 return "jammer pik"
             else:
