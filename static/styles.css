@@ -130,3 +130,59 @@ main td
     /* left-align tables' cells */
     text-align: left;
 }
+
+
+p {
+  color: white;
+  font-size: 30px;
+  font-variant: normal;
+  font-family: arial;
+}
+
+[class="1"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: yellow;
+  position: fixed;
+  top: 45%;
+  left: 55%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="2"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: cyan;
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="3"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: red;
+  position: fixed;
+  top: 55%;
+  left: 55%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+
+[class="4"] {
+  width: 120px;
+  margin-left: 35px;
+  display: block;
+  background-color: green;
+  position: fixed;
+  top: 55%;
+  left: 45%;
+  margin-top: -50px;
+  margin-left: -100px;
+}

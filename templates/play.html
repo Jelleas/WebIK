@@ -9,11 +9,8 @@
         <fieldset>
         </fieldset>
     </form>
-    {{ question }}
+    <p>{{ question }}<p/>
     {% for answer in answers %}
-        <form action="{{ url_for('play') }}">
-            <button value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer }}</button>
-        </form>
+        <button class="{{ loop.index }}">{{ answer }}</button>
     {% endfor %}
-</table>
 {% endblock %}
