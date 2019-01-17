@@ -113,8 +113,8 @@ html, body {
 
 .left {
   width: 40%;
-  line-height: 200px;
-  margin: auto;
+  /*line-height: 200px;*/
+  /*margin: auto;*/
 }
 
 .right {
@@ -135,7 +135,6 @@ html, body {
   }
 }
 
-<<<<<<< HEAD
 .form{
     width: 50%;
 }
@@ -159,28 +158,6 @@ main td
 {
      /*left-align tables' cells*/
     text-align: left;
-=======
-/*main .form-control*/
-/*{*/
-    /* center form controls */
-/*    display: inline-block;*/
-
-    /* override Bootstrap's 100% width for form controls */
-/*    width: auto;*/
-/*}*/
-
-/*main img*/
-/*{*/
-    /* constrain images on small screens */
-/*    max-width: 100%;*/
-/*}*/
-
-/*main td*/
-/*{*/
-    /* left-align tables' cells */
-/*    text-align: left;*/
-/*}*/
-
 
 p {
   color: white;

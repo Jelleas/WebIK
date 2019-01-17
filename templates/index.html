@@ -5,14 +5,12 @@
 {% endblock %}
 
 {% block main %}
-<h2>Rij</h2>
 <div class="row">
   <div class="column left">
     <div class="form-group">
     <b><label for="exampleTextarea"><h1>Welkom</h1></label></b>
     <div class = "box">
-    <textarea class="form-control" id="exampleTextarea" rows="8" cols="50
-    " align="middle">Welcome to Geography Guru!
+    <textarea class="form-control" id="exampleTextarea" rows="8" cols="50">Welcome to Geography Guru!
       Geography Guru is the game to test whether your geography knowledge is up to standards.
       Play against other players from around the globe and see yourself soaring through the ranks!
       Navigate using the tabs at the top of the page.</textarea>
@@ -20,35 +18,37 @@
     </div>
   </div>
   <div class="column right">
-    <b><label for="exampleTextarea"  align="middle"><h1>Current Games</h1></label></b>
+    <b><label for="exampleTextarea"><h1>Current Games</h1></label></b>
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">Opponent</th>
-          <th scope="col">Column heading</th>
-          <th scope="col">Column heading</th>
+          <th scope="col">Score</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
         </tr>
       </thead>
+
+        {% for now in current %}
         <tr class="table-info">
-          <th scope="row">Secondary</th>
-          <td>Column content</td>
-          <td>Column content</td>
+          <td>{{ now.score }}</td>
+          <td>{{ now.status }}</td>
         </tr>
-        <tr class="table-success">
-          <th scope="row">Success</th>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-info">
-          <th scope="row">Danger</th>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-success">
-          <th scope="row">Warning</th>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
+        <!--<tr class="table-success">-->
+
+        <!--  <td>Column content</td>-->
+        <!--  <td>Column content</td>-->
+        <!--</tr>-->
+        <!--<tr class="table-info">-->
+        <!--  <td>Column content</td>-->
+        <!--  <td>Column content</td>-->
+        <!--  <td>Column content</td>-->
+        <!--</tr>-->
+        <!--<tr class="table-success">-->
+        <!--  <td>Column content</td>-->
+        <!--  <td>Column content</td>-->
+        <!--  <td>Column content</td>-->
+        <!--</tr>-->
+        {% endfor %}
     </thead>
   </div>
 </div>
