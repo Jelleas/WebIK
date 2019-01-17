@@ -135,23 +135,27 @@ html, body {
   }
 }
 
-/*main .form-control*/
-/*{*/
-    /* center form controls */
-/*    display: inline-block;*/
+.form{
+    width: 50%;
+}
 
-    /* override Bootstrap's 100% width for form controls */
-/*    width: auto;*/
-/*}*/
+main .form-control
+{
+    /*center form controls*/
+    display: inline-block;
 
-/*main img*/
-/*{*/
-    /* constrain images on small screens */
-/*    max-width: 100%;*/
-/*}*/
+    /*override Bootstrap's 100% width for form controls*/
+    width: auto;
+}
 
-/*main td*/
-/*{*/
-    /* left-align tables' cells */
-/*    text-align: left;*/
-/*}*/
+main img
+{
+     /*constrain images on small screens*/
+    max-width: 100%;
+}
+
+main td
+{
+     /*left-align tables' cells*/
+    text-align: left;
+}
