@@ -131,29 +131,34 @@ def play():
         random.shuffle(answers)
         return render_template("play.html", question=question, answers=answers)
     else:
-    # als de gebruiker het goede antwoord geeft, verhoog de score
-        if request.form.get("answer") == game["correct_answer"]:
-            score += 1
-            return redirect(url_for('play'))
+        if score >= 50:
+            db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
+            score = 0
+            return "Alle vragen goed"
         else:
-            # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
-            to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
-            if not to_beat:
-                # als de gebruiker de eerste is die speelt, sla zijn score op
-                db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
-                score = 0
-                return "jammer pik"
+            # als de gebruiker het goede antwoord geeft, verhoog de score
+            if request.form.get("answer") == game["correct_answer"]:
+                score += 1
+                return redirect(url_for('play'))
             else:
-                # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
-                if to_beat > score:
+                # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
+                to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
+                if not to_beat:
+                    # als de gebruiker de eerste is die speelt, sla zijn score op
+                    db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
                     score = 0
-                    return "verloren"
-                elif to_beat < score:
-                    score = 0
-                    return "gewonnen"
-                elif to_beat == score:
-                    score = 0
-                    return "gelijkspel"
+                    return "jammer pik"
+                else:
+                    # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
+                    if to_beat > score:
+                        score = 0
+                        return "verloren"
+                    elif to_beat < score:
+                        score = 0
+                        return "gewonnen"
+                    elif to_beat == score:
+                        score = 0
+                        return "gelijkspel"
 
 @app.route("/find_game", methods=["GET", "POST"])
 @login_required
