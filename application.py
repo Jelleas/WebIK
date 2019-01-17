@@ -41,7 +41,6 @@ def index():
     if request.method == "GET":
         rows = db.execute("SELECT game_id, player1_id, player2_id, score, status FROM games WHERE player1_id = :id and status = :active", id=session["user_id"], active = ("active"))
         rows2 = db.execute("SELECT game_id, player1_id, player2_id, score, status FROM games WHERE player2_id = :id and status = :active", id=session["user_id"], active = ("active"))
-        print(rows)
         if rows or rows2:
             return render_template("index.html", current = rows, current2 = rows2)
         else:
