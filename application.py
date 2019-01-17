@@ -122,10 +122,12 @@ def play():
     # maak variabelen aan
     global score
     global game_id
-    game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=game_id)[0]["questions"])["results"][score]
-    players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
-    to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
-
+    if game_id > 0:
+        game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=game_id)[0]["questions"])["results"][score]
+        players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
+        to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
+    else:
+        return "No game found"
     # haal de vragen en antwoorden op voor de huidige game
     if request.method == "GET":
         question = game["question"]
@@ -158,12 +160,17 @@ def play():
                     # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
                     if to_beat > score:
                         score = 0
+                        won_by = "Winner: " + str(db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player1_id"])[0]["username"])
+                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=won_by, game_id=game_id)
                         return "verloren"
                     elif to_beat < score:
                         score = 0
+                        won_by = "Winner: " + str(db.execute("SELECT username FROM users WHERE id = :other_id", other_id=session.get("user_id"))[0]["username"])
+                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=won_by, game_id=game_id)
                         return "gewonnen"
                     elif to_beat == score:
                         score = 0
+                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status="draw", game_id=game_id)
                         return "gelijkspel"
 
 @app.route("/find_game", methods=["GET", "POST"])
