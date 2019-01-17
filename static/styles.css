@@ -15,6 +15,7 @@ body {
 html, body {
     margin: 0;
     height: 100vh;
+    overflow: hidden
 }
 
 .container
@@ -55,8 +56,8 @@ html, body {
   min-height: 150px;
   width: 100%;
   border: 0px solid #fff;
-  width: 100%;
   text-align: center;
+
 
 }
 
@@ -73,9 +74,12 @@ html, body {
 .navbar-toggle {
   /* (80px - button height 34px) / 2 = 23px */
   margin-top: 23px;
-  padding: 9px 10px !important;
+  padding: 9px 10px;
 }
 
+.navbar navbar-expand-lg navbar-light{
+  background-color: red;
+}
 @media (min-width: 768px) {
   .navbar-nav > li > a {
     /* (80px - line-height of 27px) / 2 = 26.5px */
@@ -98,12 +102,8 @@ html, body {
 
 .left {
   width: 40%;
-  left: 0;
   line-height: 200px;
   margin: auto;
-  margin-top: -100px;
-  position: absolute;
-  top: 50%;
 }
 
 .right {
@@ -113,10 +113,6 @@ html, body {
 /* Clear floats after the columns */
 .row {
     width: 100%;
-    position: absolute;
-    top: 100px;
-    bottom: 100px;
-    left: 0;
     height: 100vh;
     overflow: hidden;
 }
@@ -128,23 +124,23 @@ html, body {
   }
 }
 
-main .form-control
-{
+/*main .form-control*/
+/*{*/
     /* center form controls */
-    display: inline-block;
+/*    display: inline-block;*/
 
     /* override Bootstrap's 100% width for form controls */
-    width: auto;
-}
+/*    width: auto;*/
+/*}*/
 
-main img
-{
+/*main img*/
+/*{*/
     /* constrain images on small screens */
-    max-width: 100%;
-}
+/*    max-width: 100%;*/
+/*}*/
 
-main td
-{
+/*main td*/
+/*{*/
     /* left-align tables' cells */
-    text-align: left;
-}
+/*    text-align: left;*/
+/*}*/
