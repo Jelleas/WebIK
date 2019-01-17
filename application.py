@@ -123,13 +123,19 @@ def play():
     global score
     global game_id
     game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id", game_id=game_id)[0]["questions"])["results"][score]
+    players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
 
     # haal de vragen en antwoorden op voor de huidige game
     if request.method == "GET":
         question = game["question"]
         answers = [game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2]]
         random.shuffle(answers)
-        return render_template("play.html", question=question, answers=answers)
+        # check tegen wie er wordt gespeeld
+        if session.get("user_id") == players[0]["player1_id"]:
+            opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player2_id"])[0]["username"]
+        elif session.get("user_id") == players[0]["player2_id"]:
+            opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player1_id"])[0]["username"]
+        return render_template("play.html", question=question, answers=answers, score=score, opponent=opponent)
     else:
         if score >= 50:
             db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
