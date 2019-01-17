@@ -9,8 +9,19 @@
         <fieldset>
         </fieldset>
     </form>
+
     <p>{{ question }}<p/>
     {% for answer in answers %}
         <button class="{{ loop.index }}">{{ answer }}</button>
     {% endfor %}
+
+    <div>
+        {% if score %}
+            score to beat: {{ score }}
+        {% endif %}
+        <br>
+        playing against: {{ opponent }}
+    </div>
+</table>
+
 {% endblock %}

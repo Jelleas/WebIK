@@ -5,18 +5,55 @@
 {% endblock %}
 
 {% block main %}
-<span class="badge badge-danger">Just a tip: Go to the history tab to add $10.000 to your balance!</span>
-
-<h2>Two Unequal Columns</h2>
-
+<h2>Rij</h2>
 <div class="row">
-  <div class="column left" style="background-color:#aaa;">
-    <h2>Column 1</h2>
-    <p>Some text..</p>
+  <div class="column left">
+    <div class="form-group">
+    <b><label for="exampleTextarea"><h1>Welkom</h1></label></b>
+    <div class = "box">
+    <textarea class="form-control" id="exampleTextarea" rows="10" cols="70" align="middle">Welcome to Geography Guru!
+      Geography Guru is the game to test whether your geography knowledge is up to standards.
+      Play against other players from around the globe and see yourself soaring through the ranks!
+      Navigate using the tabs at the top of the page.</textarea>
+    </div>
+    </div>
   </div>
-  <div class="column right" style="background-color:#bbb;">
-    <h2>Column 2</h2>
-    <p>Some text..</p>
+  <div class="column right">
+    <b><label for="exampleTextarea"><h1>Current Games</h1></label></b>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">Column heading</th>
+          <th scope="col">Column heading</th>
+          <th scope="col">Column heading</th>
+        </tr>
+      </thead>
+        <tr class="table-secondary">
+          <th scope="row">Secondary</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-success">
+          <th scope="row">Success</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-danger">
+          <th scope="row">Danger</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+        <tr class="table-warning">
+          <th scope="row">Warning</th>
+          <td>Column content</td>
+          <td>Column content</td>
+          <td>Column content</td>
+        </tr>
+    </thead>
   </div>
 </div>
 {% endblock %}

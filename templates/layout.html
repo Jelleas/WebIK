@@ -19,10 +19,10 @@
 
     </head>
 
-    <body class="wrapper">
-        <div class="container">
+    <body class="">
+        <div class="">
             {% if session.user_id %}
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -31,24 +31,24 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active" action="{{ url_for('index') }}">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Play game</a>
+                  <a class="nav-link" href="{{ url_for('find_game') }}">Find game</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Current games</a>
+                  <a class="nav-link" href="#">History</a>
                 </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
+              <form class="form-inline my-2 my-lg-0" action="{{ url_for('logout') }}">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
               </form>
             </div>
             </nav>
             {% else %}
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3c85c6">
-            <div class = test>
-            <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
+            <nav class="navbar navbar-expand-lg navbar-light">
+            <div class = "test">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }}></span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,7 +57,7 @@
               <ul class="navbar-nav mr-auto">
               </ul>
               <form class="form-inline my-2 my-lg-0" action="{{ url_for('register') }}">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Register</button>
+                <button class="btn btn-primary" type="submit">Register</button>
               </form>
             </div>
           </nav>
