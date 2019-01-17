@@ -49,16 +49,16 @@ def login():
     if request.method == "POST":
         # ensure username was submitted
         if not request.form.get("username"):
-            return redirect(url_for("login_error"))
+            return render_template("login.error.html")
         # ensure password was submitted
         elif not request.form.get("password"):
-            return redirect(url_for("login_error"))
+            return render_template("login.error.html")
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return ("username does not exist")
+            return render_template("login.error.html")
 
         # remember which user has logged in
         session["user_id"] = rows[0]["id"]
