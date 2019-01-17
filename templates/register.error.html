@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block main %}
+<div class="alert alert-danger" role="alert">
+The input was invalid!
+</div>
     <form action="{{ url_for('register') }}" method="post">
         <div class = test>
         <fieldset>

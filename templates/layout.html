@@ -19,8 +19,8 @@
 
     </head>
 
-    <body class="wrapper">
-        <div class="container">
+    <body class="">
+        <div class="">
             {% if session.user_id %}
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
@@ -40,15 +40,15 @@
                   <a class="nav-link" href="#">Current games</a>
                 </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
+              <form class="form-inline my-2 my-lg-0" action="{{ url_for('register') }}">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
               </form>
             </div>
             </nav>
             {% else %}
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3c85c6">
-            <div class = test>
-            <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }} width="200" height="70"></span></a>
+            <nav class="navbar navbar-expand-lg navbar-light">
+            <div class = "test">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src={{ url_for('static', filename = 'logo.png') }}></span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,7 +57,7 @@
               <ul class="navbar-nav mr-auto">
               </ul>
               <form class="form-inline my-2 my-lg-0" action="{{ url_for('register') }}">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Register</button>
+                <button class="btn btn-primary" type="submit">Register</button>
               </form>
             </div>
           </nav>

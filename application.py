@@ -85,27 +85,29 @@ def logout():
 def register():
     """Register user."""
     if request.method == "POST":
-
-        # ensure username was submitted
+        invalid = "!@#$%^&*()~`=+/?><.,;:{}\[]|"
+        # check for invlaid characters
+        for char in request.form.get("username"):
+            if char in invalid:
+                return render_template("register.error.html")
         if not request.form.get("username"):
-            return redirect(url_for("register_error"))
-
-                # ensure password was submitted
+            return render_template("register.error.html")
         elif not request.form.get("password"):
-            return redirect(url_for("register_error"))
+            return render_template("register.error.html")
         elif not request.form.get("confirmation"):
-            return redirect(url_for("register_error"))
+            return render_template("register.error.html")
         elif request.form.get("confirmation")!=request.form.get("password"):
-            return redirect(url_for("register_error"))
+            return render_template("register.error.html")
         # check to see whether username already exists
         elif len(db.execute("SELECT id FROM users WHERE username = :usr;", usr=request.form.get("username"))):
-            return redirect(url_for("register_error"))
+            return render_template("register.error.html")
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
-        # ensure username exists and password is correct
+        # check if username is taken
         if len(rows) == 1:
-            return redirect(url_for("register_error"))
+            return render_template("register.error.html")
+        # add user to database
         insert = db.execute("INSERT INTO users (username,hash) VALUES (:username,:hash1)", username=request.form.get("username"),hash1=pwd_context.hash(request.form.get("password")))
         return redirect(url_for("login"))
     else:
@@ -152,3 +154,22 @@ def play():
                 elif to_beat == score:
                     score = 0
                     return "gelijkspel"
+
+@app.route("/find_game", methods=["GET", "POST"])
+@login_required
+def find_game():
+    global game_id
+    if request.method == "GET":
+        return render_template("find_game.html")
+    else:
+        username = request.form.get("user")
+        results = db.execute("SELECT id FROM users WHERE username = :username", username=username)
+        if results:
+            invite_id = results[0]["id"]
+            if invite_id == session.get("id"):
+                return "je kan jezelf niet uitdagen"
+            else:
+                create_game(session.get("id"), invite_id)
+                game_id = db.execute("SELECT max(game_id) FROM games")[0]["game_id"]
+        else:
+            return "username does not exist"
