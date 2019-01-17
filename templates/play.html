@@ -10,10 +10,10 @@
         </fieldset>
     </form>
 
-    <p>{{ question }}<p/>
+    <p>{{ question|safe }}<p/>
     {% for answer in answers %}
         <form action="{{ url_for('play') }}">
-            <button class="{{ loop.index }}" value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer }}</button>
+            <button class="{{ loop.index }}" value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer|safe }}</button>
         </form>
     {% endfor %}
 
