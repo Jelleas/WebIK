@@ -32,12 +32,18 @@
             <tr class="table-info">
               <td>{{ now.score }}</td>
               <td colspan="2">{{ now.status }}</td>
+              <td> </td>
             </tr>
           {% endfor %}
           {% for now in current2 %}
             <tr class="table-info">
-              <td colspan="2">{{ now.score }}</td>
+              <td colspan="1">{{ now.score }}</td>
               <td>{{ now.status }}</td>
+              <td>
+                <form>
+                  <button value="{{ now.game_id }}" name="game_id" type="submit" formmethod="POST">Play!</button>
+                </form>
+              </td>
             </tr>
           {% endfor %}
         {% else %}

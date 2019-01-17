@@ -31,17 +31,24 @@ Session(app)
 
 # configure CS50 Library to use SQLite database
 db = SQL("sqlite:///trivia.db")
+score = 0
+game_id = 0
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    rows = db.execute("SELECT * FROM games WHERE player1_id = :id and status = :active", id=session["user_id"], active = ("active"))
-    rows2 = db.execute("SELECT * FROM games WHERE player2_id = :id and status = :active", id=session["user_id"], active = ("active"))
-
-    if rows or rows2:
-        return render_template("index.html", current = rows, current2 = rows2)
+    global game_id
+    if request.method == "GET":
+        rows = db.execute("SELECT game_id, player1_id, player2_id, score, status FROM games WHERE player1_id = :id and status = :active", id=session["user_id"], active = ("active"))
+        rows2 = db.execute("SELECT game_id, player1_id, player2_id, score, status FROM games WHERE player2_id = :id and status = :active", id=session["user_id"], active = ("active"))
+        print(rows)
+        if rows or rows2:
+            return render_template("index.html", current = rows, current2 = rows2)
+        else:
+            return render_template("index.html")
     else:
-        return render_template("index.html")
+        game_id = int(request.form.get("game_id"))
+        return redirect(url_for("play"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -117,9 +124,6 @@ def register():
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
-
-score = 0
-game_id = 0
 
 @app.route("/play", methods=["GET", "POST"])
 @login_required
