@@ -35,7 +35,11 @@ db = SQL("sqlite:///trivia.db")
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    rows = db.execute("SELECT * FROM games WHERE player1_id = :id and status = :active", id=session["user_id"], active = ("active"))
+    rows2 = db.execute("SELECT * FROM games WHERE player2_id = :id and status = :active", id=session["user_id"], active = ("active"))
+
+    if rows or rows2:
+        return render_template("index.html", current = rows, current2 = rows2)
 
 
 @app.route("/login", methods=["GET", "POST"])
