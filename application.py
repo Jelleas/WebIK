@@ -158,18 +158,40 @@ def play():
 @app.route("/find_game", methods=["GET", "POST"])
 @login_required
 def find_game():
+    # maak variabele aan
     global game_id
+
     if request.method == "GET":
         return render_template("find_game.html")
     else:
-        username = request.form.get("user")
-        results = db.execute("SELECT id FROM users WHERE username = :username", username=username)
-        if results:
-            invite_id = results[0]["id"]
-            if invite_id == session.get("id"):
-                return "je kan jezelf niet uitdagen"
+        # als de gebruiker een username heeft gezocht, zoek deze op in de database
+        if request.form['find_button'] == 'search':
+            username = request.form.get("user")
+            results = db.execute("SELECT id FROM users WHERE username = :username", username=username)
+            # als de username bestaat, maak een variabele aan en kijk of deze niet hetzelfde is als de huidige user
+            if results:
+                invite_id = results[0]["id"]
+                if invite_id == session.get("user_id"):
+                    return "je kan jezelf niet uitdagen"
+                else:
+                    # maak een game aan met de twee id's en vind de nieuwe game id
+                    create_game(session.get("user_id"), invite_id)
+                    game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id", user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
+                    # plaats de speler in-game
+                    return redirect(url_for("play"))
             else:
-                create_game(session.get("id"), invite_id)
-                game_id = db.execute("SELECT max(game_id) FROM games")[0]["game_id"]
-        else:
-            return "username does not exist"
+                return "username does not exist"
+        # als de gebruiker een random opponent kiest, haal alle ids uit de database
+        elif request.form['find_button'] == 'random':
+            ids = db.execute("SELECT id FROM users")
+            random_id = random.randrange(len(ids))
+            invite_id = ids[random_id]["id"]
+            # blijf een random id kiezen tot het een andere is dan die van de huidige user
+            while invite_id == session.get("user_id"):
+                random_id = random.randrange(len(ids))
+                invite_id = ids[random_id]["id"]
+            # maak een game aan met de twee id's en vind de nieuwe game id
+            create_game(session.get("user_id"), invite_id)
+            game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id", user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
+            # plaats de speler in-game
+            return redirect(url_for("play"))
