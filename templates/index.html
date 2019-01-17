@@ -33,21 +33,12 @@
           <td>{{ now.score }}</td>
           <td>{{ now.status }}</td>
         </tr>
-        <!--<tr class="table-success">-->
-
-        <!--  <td>Column content</td>-->
-        <!--  <td>Column content</td>-->
-        <!--</tr>-->
-        <!--<tr class="table-info">-->
-        <!--  <td>Column content</td>-->
-        <!--  <td>Column content</td>-->
-        <!--  <td>Column content</td>-->
-        <!--</tr>-->
-        <!--<tr class="table-success">-->
-        <!--  <td>Column content</td>-->
-        <!--  <td>Column content</td>-->
-        <!--  <td>Column content</td>-->
-        <!--</tr>-->
+        {% endfor %}
+        {% for now in current2 %}
+        <tr class="table-info">
+          <td>{{ now.score }}</td>
+          <td>{{ now.status }}</td>
+        </tr>
         {% endfor %}
     </thead>
   </div>
