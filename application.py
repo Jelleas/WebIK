@@ -39,7 +39,7 @@ def index():
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login():
+    def login():
     """Log user in."""
 
     # forget any user_id
@@ -88,24 +88,24 @@ def register():
 
         # ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username")
+            return redirect(url_for("register_error"))
 
                 # ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password")
+            return redirect(url_for("register_error"))
         elif not request.form.get("confirmation"):
-            return apology("must provide confirmation")
+            return redirect(url_for("register_error"))
         elif request.form.get("confirmation")!=request.form.get("password"):
-                return apology("passwords don't match up")
+            return redirect(url_for("register_error"))
         # check to see whether username already exists
         elif len(db.execute("SELECT id FROM users WHERE username = :usr;", usr=request.form.get("username"))):
-                return apology("username already exists")
+            return redirect(url_for("register_error"))
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
         # ensure username exists and password is correct
         if len(rows) == 1:
-            return apology("username already taken")
+            return redirect(url_for("register_error"))
         insert = db.execute("INSERT INTO users (username,hash) VALUES (:username,:hash1)", username=request.form.get("username"),hash1=pwd_context.hash(request.form.get("password")))
         return redirect(url_for("login"))
     else:
