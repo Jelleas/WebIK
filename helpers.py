@@ -18,7 +18,10 @@ def create_game(player1_id, player2_id):
     # zet vragen in json
     json = vragen.json()
     # insert de benodigde gegevens in de database
-    db.execute("INSERT INTO games (player1_id, player2_id, score, questions) VALUES (:player1_id, :player2_id, :score, :questions)", player1_id=player1_id, player2_id=player2_id, score=0, questions=str(json))
+    player1_name = db.execute("SELECT username FROM users WHERE id = :player1_id", player1_id=player1_id)[0]["username"]
+    player2_name = db.execute("SELECT username FROM users WHERE id = :player2_id", player2_id=player2_id)[0]["username"]
+    db.execute("INSERT INTO games (player1_id, player2_id, questions, player1_name, player2_name) VALUES (:player1_id, :player2_id, :questions, :player1_name, :player2_name)",
+    player1_id=player1_id, player2_id=player2_id, questions=str(json), player1_name=player1_name, player2_name=player2_name)
 
 def login_required(f):
     """

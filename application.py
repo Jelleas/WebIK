@@ -146,7 +146,7 @@ def play():
         return render_template("play.html", question=question, answers=answers, score=to_beat, opponent=opponent)
     else:
         if score >= 50:
-            db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
+            db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id", score=score, game_id=game_id, status="active")
             score = 0
             return "Alle vragen goed"
         else:
@@ -156,9 +156,9 @@ def play():
                 return redirect(url_for('play'))
             else:
                 # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
-                if not to_beat:
+                if to_beat == 999:
                     # als de gebruiker de eerste is die speelt, sla zijn score op
-                    db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
+                    db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id", score=score, game_id=game_id, status="active")
                     score = 0
                     game_id = 0
                     return "jammer pik"
@@ -233,4 +233,7 @@ def browse_users():
 @login_required
 def history():
     history = db.execute("SELECT game_id, status FROM games WHERE status LIKE :won AND player1_id = :user_id OR player2_id = :user_id", won="winner: "+"%", user_id=session.get("user_id"))
+    for game in range(len(history)):
+        matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id", game_id=history[game]["game_id"])
+        history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
     return render_template("history.html", history=history)
