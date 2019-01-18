@@ -217,7 +217,6 @@ def browse_users():
     global results
     global game_id
     if request.method == "POST":
-        print("posted")
         invite_id = int(request.form.get("invite_id"))
         if invite_id == session.get("user_id"):
             return "je kan jezelf niet uitdagen"
@@ -229,3 +228,9 @@ def browse_users():
             return redirect(url_for("play"))
     else:
         return render_template("browse_users.html", results=results)
+
+@app.route("/history", methods=["GET"])
+@login_required
+def history():
+    history = db.execute("SELECT game_id, status FROM games WHERE status LIKE :won AND player1_id = :user_id OR player2_id = :user_id", won="winner: "+"%", user_id=session.get("user_id"))
+    return render_template("history.html", history=history)

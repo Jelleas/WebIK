@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('history') }}" method="post">
+        <fieldset>
+        </fieldset>
+</form>
+
+<b><label for="exampleTextarea"><h1>History</h1></label></b>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">History</th>
+        </tr>
+      </thead>
+      {% if history %}
+          {% for game in history %}
+            <tr class="table-info">
+                <td>{{ game.game_id }}</td>
+                <td>{{ game.status }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <td>No previous games :(</td>
+        {% endif %}
+    </thead>
+  </div>
+</div>
+{% endblock %}
