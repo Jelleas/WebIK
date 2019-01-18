@@ -232,7 +232,7 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    history = db.execute("SELECT game_id, status FROM games WHERE status LIKE :won AND player1_id = :user_id OR player2_id = :user_id", won="winner: "+"%", user_id=session.get("user_id"))
+    history = db.execute("SELECT game_id, status FROM games WHERE status LIKE :won OR status = :draw AND player1_id = :user_id OR player2_id = :user_id", won="winner: "+"%", draw="draw", user_id=session.get("user_id"))
     for game in range(len(history)):
         matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id", game_id=history[game]["game_id"])
         history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]

@@ -14,15 +14,15 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">History</th>
+          <th scope="col">Players</th>
+          <th scope="col">Result</th>
         </tr>
       </thead>
       {% if history %}
           {% for game in history %}
             <tr class="table-info">
-                <td>{{ game.game_id }}</td>
-                <td>{{ game.status }}</td>
                 <td>{{ game.matchup }}</td>
+                <td>{{ game.status }}</td>
             </tr>
           {% endfor %}
         {% else %}
