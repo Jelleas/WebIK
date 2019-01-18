@@ -31,8 +31,6 @@ Session(app)
 
 # configure CS50 Library to use SQLite database
 db = SQL("sqlite:///trivia.db")
-score = 0
-game_id = 0
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -96,11 +94,7 @@ def logout():
 def register():
     """Register user."""
     if request.method == "POST":
-        invalid = "!@#$%^&*()~`=+/?><.,;:{}\[]|"
-        # check for invlaid characters
-        for char in request.form.get("username"):
-            if char in invalid:
-                return render_template("register.error.html")
+        # test user input
         if not request.form.get("username"):
             return render_template("register.error.html")
         elif not request.form.get("password"):
@@ -123,6 +117,9 @@ def register():
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
+
+score = 0
+game_id = 0
 
 @app.route("/play", methods=["GET", "POST"])
 @login_required
@@ -163,6 +160,7 @@ def play():
                     # als de gebruiker de eerste is die speelt, sla zijn score op
                     db.execute("UPDATE games SET score = :score WHERE game_id = :game_id", score=score, game_id=game_id)
                     score = 0
+                    game_id = 0
                     return "jammer pik"
                 else:
                     # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
@@ -181,32 +179,23 @@ def play():
                         db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status="draw", game_id=game_id)
                         return "gelijkspel"
 
+results = []
+
 @app.route("/find_game", methods=["GET", "POST"])
 @login_required
 def find_game():
     # maak variabele aan
     global game_id
-
+    global results
     if request.method == "GET":
         return render_template("find_game.html")
     else:
         # als de gebruiker een username heeft gezocht, zoek deze op in de database
         if request.form['find_button'] == 'search':
             username = request.form.get("user")
-            results = db.execute("SELECT id FROM users WHERE username = :username", username=username)
+            results = db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE", username=username+"%")
             # als de username bestaat, maak een variabele aan en kijk of deze niet hetzelfde is als de huidige user
-            if results:
-                invite_id = results[0]["id"]
-                if invite_id == session.get("user_id"):
-                    return "je kan jezelf niet uitdagen"
-                else:
-                    # maak een game aan met de twee id's en vind de nieuwe game id
-                    create_game(session.get("user_id"), invite_id)
-                    game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id", user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
-                    # plaats de speler in-game
-                    return redirect(url_for("play"))
-            else:
-                return "username does not exist"
+            return redirect(url_for("browse_users"))
         # als de gebruiker een random opponent kiest, haal alle ids uit de database
         elif request.form['find_button'] == 'random':
             ids = db.execute("SELECT id FROM users")
@@ -221,3 +210,22 @@ def find_game():
             game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id", user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
             # plaats de speler in-game
             return redirect(url_for("play"))
+
+@app.route("/browse_users", methods=["GET", "POST"])
+@login_required
+def browse_users():
+    global results
+    global game_id
+    if request.method == "POST":
+        print("posted")
+        invite_id = int(request.form.get("invite_id"))
+        if invite_id == session.get("user_id"):
+            return "je kan jezelf niet uitdagen"
+        else:
+            # maak een game aan met de twee id's en vind de nieuwe game id
+            create_game(session.get("user_id"), invite_id)
+            game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id", user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
+            # plaats de speler in-game
+            return redirect(url_for("play"))
+    else:
+        return render_template("browse_users.html", results=results)

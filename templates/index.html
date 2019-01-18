@@ -22,6 +22,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
+          <th scope="col">opponent</th></th>
           <th scope="col">Score</th>
           <th scope="col">Status</th>
           <th scope="col"></th>
@@ -30,6 +31,7 @@
       {% if current or current2 %}
           {% for now in current %}
             <tr class="table-info">
+              <td>{{ now.player2_id }}</td>
               <td>{{ now.score }}</td>
               <td colspan="2">{{ now.status }}</td>
               <td> </td>
@@ -37,6 +39,7 @@
           {% endfor %}
           {% for now in current2 %}
             <tr class="table-info">
+              <td>{{ now.player1_id }}</td>
               <td colspan="1">{{ now.score }}</td>
               <td>{{ now.status }}</td>
               <td>
