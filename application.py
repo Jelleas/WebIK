@@ -143,7 +143,7 @@ def play():
             opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player2_id"])[0]["username"]
         elif session.get("user_id") == players[0]["player2_id"]:
             opponent = db.execute("SELECT username FROM users WHERE id = :other_id", other_id=players[0]["player1_id"])[0]["username"]
-        return render_template("play.html", question=question, answers=answers, score=to_beat, opponent=opponent)
+        return render_template("play.html", question=question, answers=answers, to_beat=to_beat, opponent=opponent, score=score)
     else:
         if score >= 50:
             db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id", score=score, game_id=game_id, status="active")
@@ -193,7 +193,7 @@ def find_game():
         # als de gebruiker een username heeft gezocht, zoek deze op in de database
         if request.form['find_button'] == 'search':
             username = request.form.get("user")
-            results = db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE", username=username+"%")
+            results = db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 10", username=username+"%")
             # als de username bestaat, maak een variabele aan en kijk of deze niet hetzelfde is als de huidige user
             return redirect(url_for("browse_users"))
         # als de gebruiker een random opponent kiest, haal alle ids uit de database
@@ -232,7 +232,7 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    history = db.execute("SELECT game_id, status FROM games WHERE status LIKE :won OR status = :draw AND player1_id = :user_id OR player2_id = :user_id", won="winner: "+"%", draw="draw", user_id=session.get("user_id"))
+    history = db.execute("SELECT game_id, status FROM games WHERE (status LIKE :won OR status = :draw) AND (player1_id = :user_id OR player2_id = :user_id)", won="Winner: "+"%", draw="draw", user_id=session.get("user_id"))
     for game in range(len(history)):
         matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id", game_id=history[game]["game_id"])
         history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]

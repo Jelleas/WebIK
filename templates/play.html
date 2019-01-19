@@ -13,14 +13,16 @@
     <p>{{ question|safe }}<p/>
     {% for answer in answers %}
         <form action="{{ url_for('play') }}">
-            <button class="{{ loop.index }}" value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer|safe }}</button>
+            <button class="btn btn-primary" value="{{ answer }}" name="answer" type="submit" formmethod="POST">{{ answer|safe }}</button>
         </form>
     {% endfor %}
 
     <div>
-        {% if score %}
-            score to beat: {{ score }}
+        {% if to_beat != 999 %}
+            score to beat: {{ to_beat }}
         {% endif %}
+        <br>
+        current score: {{ score }}
         <br>
         playing against: {{ opponent }}
     </div>
