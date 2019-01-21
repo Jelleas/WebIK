@@ -12,11 +12,13 @@ import ast
 db = SQL("sqlite:///trivia.db")
 
 def create_game(player1_id, player2_id):
-
+    """Create a game between two players."""
     # haal vragen op
     vragen = requests.get("https://opentdb.com/api.php?amount=50&category=22&type=multiple")
     # zet vragen in json
     json = vragen.json()
+    # shuffle de vragen
+    random.shuffle(json["results"])
     # insert de benodigde gegevens in de database
     player1_name = db.execute("SELECT username FROM users WHERE id = :player1_id", player1_id=player1_id)[0]["username"]
     player2_name = db.execute("SELECT username FROM users WHERE id = :player2_id", player2_id=player2_id)[0]["username"]
@@ -24,6 +26,7 @@ def create_game(player1_id, player2_id):
     player1_id=player1_id, player2_id=player2_id, questions=str(json), player1_name=player1_name, player2_name=player2_name)
     return db.execute("SELECT max(game_id) FROM games WHERE player1_id = :player1_id AND player2_id = :player2_id",
                       player1_id=player1_id, player2_id=player2_id)[0]["max(game_id)"]
+
 
 def login_required(f):
     """
