@@ -43,6 +43,7 @@ results = []
 def index():
     global game_id
     if request.method == "GET":
+        # find users' current games
         rows = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player1_id = :id and status = :active",
                           id=session["user_id"], active=("active"))
         rows2 = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player2_id = :id and status = :active",
@@ -52,6 +53,7 @@ def index():
         else:
             return render_template("index.html")
     else:
+        # find on which game the user clicked and send them to that game
         game_id = int(request.form.get("game_id"))
         return redirect(url_for("play"))
 
@@ -133,7 +135,8 @@ def register():
 @app.route("/play", methods=["GET", "POST"])
 @login_required
 def play():
-    # maak variabelen aan
+    """Page where users can answers questions."""
+    # initiate game
     global score
     global game_id
     if game_id > 0:
@@ -143,12 +146,12 @@ def play():
         to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
     else:
         return "No game found"
-    # haal de vragen en antwoorden op voor de huidige game
+    # find questions and answers of current game
     if request.method == "GET":
         question = game["question"]
         answers = [game["correct_answer"], game["incorrect_answers"][0], game["incorrect_answers"][1], game["incorrect_answers"][2]]
         random.shuffle(answers)
-        # check tegen wie er wordt gespeeld
+        # check against who the player is playing
         if session.get("user_id") == players[0]["player1_id"]:
             opponent = db.execute("SELECT username FROM users WHERE id = :other_id",
                                   other_id=players[0]["player2_id"])[0]["username"]
@@ -157,27 +160,28 @@ def play():
                                   other_id=players[0]["player1_id"])[0]["username"]
         return render_template("play.html", question=question, answers=answers, to_beat=to_beat, opponent=opponent, score=score)
     else:
+        # if the user answered all questions correct, end their turn
         if score >= 50:
             db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id",
                        score=score, game_id=game_id, status="active")
             score = 0
             return "Alle vragen goed"
         else:
-            # als de gebruiker het goede antwoord geeft, verhoog de score
+            # increase the score when the user gives the right answer
             if request.form.get("answer") == game["correct_answer"]:
                 score += 1
                 return redirect(url_for('play'))
             else:
-                # als de gebruiker de vraag fout heeft, kijk of hij de eerste/tweede is die speelt
+                # when the user doesn't give the right answer, check who is playing (player 1 or player 2)
                 if to_beat == 999:
-                    # als de gebruiker de eerste is die speelt, sla zijn score op
+                    # if player 1 is playing, save their score
                     db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id",
                                score=score, game_id=game_id, status="active")
                     score = 0
                     game_id = 0
                     return "jammer pik"
                 else:
-                    # kijk of de gebruiker gewonnen/verloren/gelijk gespeeld heeft
+                    # if player 2 is playing, check who won
                     if to_beat > score:
                         score = 0
                         won_by = "Winner: " + str(db.execute("SELECT username FROM users WHERE id = :other_id",
@@ -202,51 +206,52 @@ def play():
 @app.route("/find_game", methods=["GET", "POST"])
 @login_required
 def find_game():
-    # maak variabele aan
+    """Allow the user to search for opponents"""
+    # create variables
     global game_id
     global results
     if request.method == "GET":
         return render_template("find_game.html")
     else:
-        # als de gebruiker een username heeft gezocht, zoek deze op in de database
+        # if the user typed in a username, look it up in the database
         if request.form['find_button'] == 'search':
             username = request.form.get("user")
             results = db.execute(
                 "SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 10", username=username+"%")
-            # als de username bestaat, maak een variabele aan en kijk of deze niet hetzelfde is als de huidige user
+            # if the username exists, save it and show the user the results
             return redirect(url_for("browse_users"))
-        # als de gebruiker een random opponent kiest, haal alle ids uit de database
+        # if the user chooses a random user, get all id's from the databse
         elif request.form['find_button'] == 'random':
             ids = db.execute("SELECT id FROM users")
+            # choose a random id
             random_id = random.randrange(len(ids))
             invite_id = ids[random_id]["id"]
-            # blijf een random id kiezen tot het een andere is dan die van de huidige user
+            # keep choosing a random id while the random id is the same as the user's id
             while invite_id == session.get("user_id"):
                 random_id = random.randrange(len(ids))
                 invite_id = ids[random_id]["id"]
-            # maak een game aan met de twee id's en vind de nieuwe game id
-            create_game(session.get("user_id"), invite_id)
-            game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id",
-                                 user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
-            # plaats de speler in-game
+            # create a game with the user id and the random id and look up the game id
+            game_id = create_game(session.get("user_id"), invite_id)
+            # put the player in-game
             return redirect(url_for("play"))
 
 
 @app.route("/browse_users", methods=["GET", "POST"])
 @login_required
 def browse_users():
+    """Show the user all matching users and let them invite them."""
     global results
     global game_id
     if request.method == "POST":
+        # find which user was invited
         invite_id = int(request.form.get("invite_id"))
+        # check input
         if invite_id == session.get("user_id"):
             return "je kan jezelf niet uitdagen"
         else:
-            # maak een game aan met de twee id's en vind de nieuwe game id
-            create_game(session.get("user_id"), invite_id)
-            game_id = db.execute("SELECT max(game_id) FROM games WHERE player1_id = :user_id AND player2_id = :invite_id",
-                                 user_id=session.get("user_id"), invite_id=invite_id)[0]["max(game_id)"]
-            # plaats de speler in-game
+            # create a game and lookup the game id
+            game_id = create_game(session.get("user_id"), invite_id)
+            # put the player in-game
             return redirect(url_for("play"))
     else:
         return render_template("browse_users.html", results=results)
@@ -255,8 +260,11 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
+    """Shows the user their match history."""
+    # find all the users' games that are done
     history = db.execute("SELECT game_id, status FROM games WHERE (status LIKE :won OR status = :draw) AND (player1_id = :user_id OR player2_id = :user_id)",
                          won="Winner: "+"%", draw="draw", user_id=session.get("user_id"))
+    # find the usernames of the players involved in the matches
     for game in range(len(history)):
         matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id",
                              game_id=history[game]["game_id"])
