@@ -46,10 +46,9 @@ def index():
     score = 0
     if request.method == "GET":
         # find users' current games
-        rows = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player1_id = :id and status = :active",
-                          id=session["user_id"], active=("active"))
-        rows2 = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player2_id = :id and status = :active",
-                           id=session["user_id"], active=("active"))
+        user_index = index_info(session.get("user_id"))
+        rows = user_index[0]
+        rows2 = user_index[1]
         if rows or rows2:
             return render_template("index.html", current=rows, current2=rows2)
         else:
@@ -142,10 +141,10 @@ def play():
     global score
     global game_id
     if game_id > 0:
-        game = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id",
-                                           game_id=game_id)[0]["questions"])["results"][score]
-        players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
-        to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
+        thisRound = init_game(game_id)
+        game = thisRound[0]["results"][score]
+        players = thisRound[1]
+        to_beat = thisRound[2]
     else:
         return "No game found"
     # find questions and answers of current game
@@ -155,18 +154,16 @@ def play():
         random.shuffle(answers)
         # check against who the player is playing
         if session.get("user_id") == players[0]["player1_id"]:
-            opponent = db.execute("SELECT username FROM users WHERE id = :other_id",
-                                  other_id=players[0]["player2_id"])[0]["username"]
+            opponent = find_username(players[0]["player2_id"])
         elif session.get("user_id") == players[0]["player2_id"]:
-            opponent = db.execute("SELECT username FROM users WHERE id = :other_id",
-                                  other_id=players[0]["player1_id"])[0]["username"]
+            opponent = find_username(players[0]["player1_id"])
         return render_template("play.html", question=question, answers=answers, to_beat=to_beat, opponent=opponent, score=score)
     else:
         # if the user answered all questions correct, end their turn
         if score >= 50:
-            db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id",
-                       score=score, game_id=game_id, status="active")
+            update_score(score, game_id, "active")
             score = 0
+            game_id = 0
             return "Alle vragen goed"
         else:
             # increase the score when the user gives the right answer
@@ -177,8 +174,7 @@ def play():
                 # when the user doesn't give the right answer, check who is playing (player 1 or player 2)
                 if to_beat == 999:
                     # if player 1 is playing, save their score
-                    db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id",
-                               score=score, game_id=game_id, status="active")
+                    update_score(score, game_id, "active")
                     score = 0
                     game_id = 0
                     return "jammer pik"
@@ -201,8 +197,9 @@ def play():
                         game_id = 0
                         return "gewonnen"
                     elif to_beat == score:
+                        result = "Draw: " + "(" + score + "-" + to_beat + ")"
+                        finish_game(result, game_id)
                         score = 0
-                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status="draw", game_id=game_id)
                         game_id = 0
                         return "gelijkspel"
 
@@ -222,8 +219,7 @@ def find_game():
         # if the user typed in a username, look it up in the database
         if request.form['find_button'] == 'search':
             username = request.form.get("user")
-            results = db.execute(
-                "SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 10", username=username+"%")
+            results = search_user(username)
             # if the username exists, save it and show the user the results
             return redirect(url_for("browse_users"))
         # if the user chooses a random user, get all id's from the databse
@@ -270,11 +266,9 @@ def history():
     global score
     score = 0
     # find all the users' games that are done
-    history = db.execute("SELECT game_id, status FROM games WHERE (status != :active AND status != :starting) AND (player1_id = :user_id OR player2_id = :user_id) LIMIT 10",
-                         active="active", starting="starting", user_id=session.get("user_id"))
+    history = user_history(session.get("user_id"))
     # find the usernames of the players involved in the matches
     for game in range(len(history)):
-        matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id",
-                             game_id=history[game]["game_id"])
+        matchup = find_matchup(history[game]["game_id"])
         history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
     return render_template("history.html", history=history)
