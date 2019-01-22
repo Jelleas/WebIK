@@ -42,6 +42,8 @@ results = []
 @login_required
 def index():
     global game_id
+    global score
+    score = 0
     if request.method == "GET":
         # find users' current games
         rows = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player1_id = :id and status = :active",
@@ -183,17 +185,19 @@ def play():
                 else:
                     # if player 2 is playing, check who won
                     if to_beat > score:
+                        winner = find_username(players[0]["player1_id"])
+                        loser = find_username(session.get("user_id"))
+                        result = winner + " " + str(to_beat) + "-" + str(score) + " " + loser
+                        finish_game(result, game_id)
                         score = 0
-                        won_by = "Winner: " + str(db.execute("SELECT username FROM users WHERE id = :other_id",
-                                                             other_id=players[0]["player1_id"])[0]["username"])
-                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=won_by, game_id=game_id)
                         game_id = 0
                         return "verloren"
                     elif to_beat < score:
+                        winner = find_username(session.get("user_id"))
+                        loser = find_username(players[0]["player1_id"])
+                        result = loser + " " + str(to_beat) + "-" + str(score) + " " + winner
+                        finish_game(result, game_id)
                         score = 0
-                        won_by = "Winner: " + str(db.execute("SELECT username FROM users WHERE id = :other_id",
-                                                             other_id=session.get("user_id"))[0]["username"])
-                        db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=won_by, game_id=game_id)
                         game_id = 0
                         return "gewonnen"
                     elif to_beat == score:
@@ -210,6 +214,8 @@ def find_game():
     # create variables
     global game_id
     global results
+    global score
+    score = 0
     if request.method == "GET":
         return render_template("find_game.html")
     else:
@@ -261,9 +267,11 @@ def browse_users():
 @login_required
 def history():
     """Shows the user their match history."""
+    global score
+    score = 0
     # find all the users' games that are done
-    history = db.execute("SELECT game_id, status FROM games WHERE (status LIKE :won OR status = :draw) AND (player1_id = :user_id OR player2_id = :user_id)",
-                         won="Winner: "+"%", draw="draw", user_id=session.get("user_id"))
+    history = db.execute("SELECT game_id, status FROM games WHERE (status != :active AND status != :starting) AND (player1_id = :user_id OR player2_id = :user_id) LIMIT 10",
+                         active="active", starting="starting", user_id=session.get("user_id"))
     # find the usernames of the players involved in the matches
     for game in range(len(history)):
         matchup = db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id",

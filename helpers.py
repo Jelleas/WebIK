@@ -41,3 +41,9 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
+def find_username(user_id):
+    return str(db.execute("SELECT username FROM users WHERE id = :user_id", user_id=user_id)[0]["username"])
+
+def finish_game(result, game_id):
+    db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=result, game_id=game_id)
