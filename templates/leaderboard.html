@@ -14,20 +14,22 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Players</th>
-          <th scope="col">Result</th>
+          <th scope="col">Leaderboard</th>
+          <th scope="col">Player</th>
+          <th scope="col">Games won</th>
         </tr>
       </thead>
-      {% if history %}
-          {% for game in history %}
+      {% if hoogste %}
+        {% for number in hoogste %}
             <tr>
-                <td>{{ game.matchup }}</td>
-                <td>{{ game.status }}</td>
+                <td>{{loop.index}}</td>
+                <td>{{ number.username }}</td>
+                <td>{{ number.games_won }}</td>
             </tr>
-          {% endfor %}
-        {% else %}
-          <td>No previous games :(</td>
-        {% endif %}
+        {% endfor %}
+      {% else %}
+          <td>No leaderboard</td>
+      {% endif %}
     </thead>
   </div>
 </div>

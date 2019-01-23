@@ -80,3 +80,6 @@ def find_won(user_id):
 
 def update_game(games_won, user_id):
     db.execute("UPDATE users SET games_won = :games_won + 1 WHERE id = :user_id", games_won = games_won, user_id=user_id)
+
+def highest():
+    return db.execute("SELECT username, games_won FROM users ORDER BY games_won DESC LIMIT 10")

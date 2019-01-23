@@ -10,6 +10,7 @@ from re import sub
 from decimal import Decimal
 import random
 from jinja2 import Environment, PackageLoader
+from jinja2 import Template
 
 # configure application
 app = Flask(__name__)
@@ -285,10 +286,9 @@ def leaderboard():
     """Shows the user their match history."""
     global score
     score = 0
+    position = 0
     # find all the users' games that are done
-    history = user_history(session.get("user_id"))
-    # find the usernames of the players involved in the matches
-    for game in range(len(history)):
-        matchup = find_matchup(history[game]["game_id"])
-        history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
-    return render_template("history.html", history=history)
+    hoogste = highest()
+    print("hoogste", hoogste)
+
+    return render_template("leaderboard.html", hoogste = hoogste)
