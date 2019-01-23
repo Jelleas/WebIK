@@ -47,6 +47,7 @@ def find_username(user_id):
 
 def finish_game(result, game_id):
     db.execute("UPDATE games SET status = :status WHERE game_id = :game_id", status=result, game_id=game_id)
+    db.execute("UPDATE games SET questions = :leeg WHERE game_id = :game_id", leeg="n/a", game_id=game_id)
 
 def index_info(user_id):
     sent = db.execute("SELECT game_id, player1_name, player2_name, score, status FROM games WHERE player1_id = :id and status = :active",
@@ -70,7 +71,7 @@ def search_user(username):
     return db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 10", username=username+"%")
 
 def user_history(user_id):
-    return db.execute("SELECT game_id, status FROM games WHERE (status != 'active' AND status != 'starting') AND (player1_id = :user_id OR player2_id = :user_id) LIMIT 20", user_id=session.get("user_id"))
+    return db.execute("SELECT game_id, status FROM games WHERE (status != 'active' AND status != 'starting') AND (player1_id = :user_id OR player2_id = :user_id) ORDER BY game_id DESC LIMIT 11", user_id=session.get("user_id"))
 
 def find_matchup(game_id):
     return db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id", game_id=game_id)
