@@ -28,6 +28,11 @@ $(window).on('load', function() {
     setTimeout(function() {
       $('#draw').fadeOut('fast');
     }, 4000);}
+
+  if ($("#done").length != 0){
+    setTimeout(function() {
+      $('#done').fadeOut('fast');
+    }, 4000);}
 });
 
 </script>
@@ -46,6 +51,10 @@ $(window).on('load', function() {
 
     {% if finished == 4 %}
       <div id="draw" class="alert alert-danger" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins!</div>
+    {% endif %}
+
+    {% if finished == 5 %}
+      <div id="done" class="alert alert-danger" role="alert">Wow! You managed to get all questions right! That's amazing, you should be proud!</div>
     {% endif %}
 
 <div class="row">

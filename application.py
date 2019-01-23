@@ -171,7 +171,8 @@ def play():
             update_score(score, game_id, "active")
             score = 0
             game_id = 0
-            return "Alle vragen goed"
+            finished = 5
+            return redirect(url_for("index"))
         else:
             # increase the score when the user gives the right answer
             if request.form.get("answer") == game["correct_answer"]:
