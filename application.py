@@ -58,9 +58,12 @@ def index():
             return render_template("index.html", finished=finished)
     else:
         # find on which game the user clicked and send them to that game
-        game_id = int(request.form.get("game_id"))
-        return redirect(url_for("play"))
-
+        tried_id = int(request.form.get("game_id"))
+        if find_hackers(tried_id, session.get("user_id")):
+            game_id = tried_id
+            return redirect(url_for("play"))
+        else:
+            return redirect(url_for("index"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -149,9 +152,12 @@ def play():
     global finished
     if game_id > 0:
         thisRound = init_game(game_id)
-        game = thisRound[0]["results"][score]
-        players = thisRound[1]
-        to_beat = thisRound[2]
+        if thisRound:
+            game = thisRound[0]["results"][score]
+            players = thisRound[1]
+            to_beat = thisRound[2]
+        else:
+            return redirect(url_for("index"))
     else:
         return redirect(url_for("index"))
     # find questions and answers of current game

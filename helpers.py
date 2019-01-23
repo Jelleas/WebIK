@@ -57,11 +57,16 @@ def index_info(user_id):
     return [sent, received]
 
 def init_game(game_id):
-    questions = ast.literal_eval(db.execute("SELECT questions FROM games WHERE game_id = :game_id",
-                                            game_id=game_id)[0]["questions"])
-    players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
-    to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
-    return [questions, players, to_beat]
+    questionCol = db.execute("SELECT questions FROM games WHERE game_id = :game_id",
+                             game_id=game_id)[0]["questions"]
+    if questionCol != "n/a":
+        questions = ast.literal_eval(questionCol)
+        players = db.execute("SELECT player1_id, player2_id FROM games WHERE game_id = :game_id", game_id=game_id)
+        to_beat = db.execute("SELECT score FROM games WHERE game_id = :game_id", game_id=game_id)[0]["score"]
+        return [questions, players, to_beat]
+    else:
+        return False
+
 
 def update_score(score, game_id, status):
     db.execute("UPDATE games SET score = :score, status = :status WHERE game_id = :game_id",
@@ -84,3 +89,7 @@ def update_game(games_won, user_id):
 
 def highest():
     return db.execute("SELECT username, games_won FROM users ORDER BY games_won DESC LIMIT 8")
+
+def find_hackers(game_id, user_id):
+    legit_player = db.execute("SELECT player2_id FROM games WHERE game_id = :game_id", game_id=game_id)[0]["player2_id"]
+    return legit_player == user_id
