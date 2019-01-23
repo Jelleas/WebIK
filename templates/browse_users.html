@@ -10,12 +10,28 @@
         </fieldset>
 </form>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  $(window).on('load', function() {
+  if ($("#error").length != 0){
+    setTimeout(function() {
+      $('#error').fadeOut('fast');
+    }, 3500);}
+  });
+
+</script>
+
+{% if error %}
+  <div id="error" class="alert alert-danger" role="alert">You cannot invite yourself!</div>
+{% endif %}
+
 <b><label for="exampleTextarea"><h1>Users</h1></label></b>
     <table class="table">
       <thead>
         <tr>
           <th scope="col">Users</th>
-          <th scope="col">play</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       {% if results %}

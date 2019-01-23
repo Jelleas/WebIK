@@ -153,7 +153,7 @@ def play():
         players = thisRound[1]
         to_beat = thisRound[2]
     else:
-        return "No game found"
+        return redirect(url_for("index"))
     # find questions and answers of current game
     if request.method == "GET":
         question = game["question"]
@@ -269,7 +269,8 @@ def browse_users():
         invite_id = int(request.form.get("invite_id"))
         # check input
         if invite_id == session.get("user_id"):
-            return "je kan jezelf niet uitdagen"
+            error = "Unable to invite yourself"
+            return render_template("browse_users.html", results=results, error=error)
         else:
             # create a game and lookup the game id
             game_id = create_game(session.get("user_id"), invite_id)
