@@ -122,12 +122,14 @@ def register():
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
+        games_won=0
+
         # check if username is taken
         if len(rows) == 1:
             return render_template("register.error.html")
         # add user to database
-        insert = db.execute("INSERT INTO users (username,hash) VALUES (:username,:hash1)",
-                            username=request.form.get("username"), hash1=pwd_context.hash(request.form.get("password")))
+        insert = db.execute("INSERT INTO users (username,hash, games_won) VALUES (:username,:hash1, :games_won)",
+                            username=request.form.get("username"), hash1=pwd_context.hash(request.form.get("password")), games_won=games_won)
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
@@ -187,6 +189,8 @@ def play():
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
+                        won = find_won(players[0]["player1_id"])
+                        update_game(won, players[0]["player1_id"])
                         return "verloren"
                     elif to_beat < score:
                         winner = find_username(session.get("user_id"))
@@ -195,9 +199,11 @@ def play():
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
+                        won = find_won(session.get("user_id"))
+                        update_game(won, session.get("user_id"))
                         return "gewonnen"
                     elif to_beat == score:
-                        result = "Draw: " + "(" + score + "-" + to_beat + ")"
+                        result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
@@ -262,6 +268,20 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
+    """Shows the user their match history."""
+    global score
+    score = 0
+    # find all the users' games that are done
+    history = user_history(session.get("user_id"))
+    # find the usernames of the players involved in the matches
+    for game in range(len(history)):
+        matchup = find_matchup(history[game]["game_id"])
+        history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
+    return render_template("history.html", history=history)
+
+@app.route("/leaderboard", methods=["GET"])
+@login_required
+def leaderboard():
     """Shows the user their match history."""
     global score
     score = 0

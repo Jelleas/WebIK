@@ -74,3 +74,9 @@ def user_history(user_id):
 
 def find_matchup(game_id):
     return db.execute("SELECT player1_name, player2_name FROM games WHERE game_id = :game_id", game_id=game_id)
+
+def find_won(user_id):
+    return int(db.execute("SELECT games_won FROM users WHERE id = :user_id", user_id=user_id)[0]["games_won"])
+
+def update_game(games_won, user_id):
+    db.execute("UPDATE users SET games_won = :games_won + 1 WHERE id = :user_id", games_won = games_won, user_id=user_id)

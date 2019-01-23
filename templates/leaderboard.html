@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Leaderboard
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('leaderboard') }}" method="post">
+        <fieldset>
+        </fieldset>
+</form>
+
+<b><label for="exampleTextarea"><h1>Leaderboard</h1></label></b>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Players</th>
+          <th scope="col">Result</th>
+        </tr>
+      </thead>
+      {% if history %}
+          {% for game in history %}
+            <tr>
+                <td>{{ game.matchup }}</td>
+                <td>{{ game.status }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <td>No previous games :(</td>
+        {% endif %}
+    </thead>
+  </div>
+</div>
+{% endblock %}
