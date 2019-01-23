@@ -10,7 +10,6 @@ from re import sub
 from decimal import Decimal
 import random
 from jinja2 import Environment, PackageLoader
-from jinja2 import Template
 
 # configure application
 app = Flask(__name__)
@@ -36,6 +35,7 @@ db = SQL("sqlite:///trivia.db")
 # declare variables
 score = 0
 game_id = 0
+finished = 0
 results = []
 
 
@@ -44,6 +44,8 @@ results = []
 def index():
     global game_id
     global score
+    # finished 1 mean wrong answer, 2 means lost game, 3 means won, 4 means draw
+    global finished
     score = 0
     if request.method == "GET":
         # find users' current games
@@ -51,9 +53,9 @@ def index():
         rows = user_index[0]
         rows2 = user_index[1]
         if rows or rows2:
-            return render_template("index.html", current=rows, current2=rows2)
+            return render_template("index.html", current=rows, current2=rows2, finished=finished)
         else:
-            return render_template("index.html")
+            return render_template("index.html", finished=finished)
     else:
         # find on which game the user clicked and send them to that game
         game_id = int(request.form.get("game_id"))
@@ -64,6 +66,8 @@ def index():
 def login():
     """Log user in."""
 
+    global finished
+    finished = 0
     # forget any user_id
     session.clear()
 
@@ -122,8 +126,7 @@ def register():
             return render_template("register.error.html")
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
-
-        games_won=0
+        games_won = 0
 
         # check if username is taken
         if len(rows) == 1:
@@ -143,6 +146,7 @@ def play():
     # initiate game
     global score
     global game_id
+    global finished
     if game_id > 0:
         thisRound = init_game(game_id)
         game = thisRound[0]["results"][score]
@@ -180,7 +184,8 @@ def play():
                     update_score(score, game_id, "active")
                     score = 0
                     game_id = 0
-                    return "jammer pik"
+                    finished = 1
+                    return redirect(url_for("index"))
                 else:
                     # if player 2 is playing, check who won
                     if to_beat > score:
@@ -190,9 +195,10 @@ def play():
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
+                        finished = 2
                         won = find_won(players[0]["player1_id"])
                         update_game(won, players[0]["player1_id"])
-                        return "verloren"
+                        return redirect(url_for("index"))
                     elif to_beat < score:
                         winner = find_username(session.get("user_id"))
                         loser = find_username(players[0]["player1_id"])
@@ -200,15 +206,17 @@ def play():
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
+                        finished = 3
                         won = find_won(session.get("user_id"))
                         update_game(won, session.get("user_id"))
-                        return "gewonnen"
+                        return redirect(url_for("index"))
                     elif to_beat == score:
                         result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
                         finish_game(result, game_id)
                         score = 0
                         game_id = 0
-                        return "gelijkspel"
+                        finished = 4
+                        return redirect(url_for("index"))
 
 
 @app.route("/find_game", methods=["GET", "POST"])
@@ -219,6 +227,8 @@ def find_game():
     global game_id
     global results
     global score
+    global finished
+    finished = 0
     score = 0
     if request.method == "GET":
         return render_template("find_game.html")
@@ -251,6 +261,8 @@ def browse_users():
     """Show the user all matching users and let them invite them."""
     global results
     global game_id
+    global finished
+    finished = 0
     if request.method == "POST":
         # find which user was invited
         invite_id = int(request.form.get("invite_id"))
@@ -271,6 +283,8 @@ def browse_users():
 def history():
     """Shows the user their match history."""
     global score
+    global finished
+    finished = 0
     score = 0
     # find all the users' games that are done
     history = user_history(session.get("user_id"))
@@ -280,15 +294,15 @@ def history():
         history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
     return render_template("history.html", history=history)
 
+
 @app.route("/leaderboard", methods=["GET"])
 @login_required
 def leaderboard():
-    """Shows the user their match history."""
+    """Shows the 8 players with the most games won."""
     global score
+    global finished
+    finished = 0
     score = 0
     position = 0
-    # find all the users' games that are done
     hoogste = highest()
-    print("hoogste", hoogste)
-
     return render_template("leaderboard.html", hoogste = hoogste)

@@ -1,5 +1,5 @@
 body {
-    background-image: url("world3.png");
+    background-image: url("background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -251,4 +251,10 @@ main td
   background-color: #ffffff87;
   font-weight: 600;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.alert {
+    margin-right: auto;
+    margin-left: auto;
+    width: 75%;
 }

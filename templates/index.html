@@ -5,6 +5,49 @@
 {% endblock %}
 
 {% block main %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(window).on('load', function() {
+  if ($("#wrong").length != 0){
+    setTimeout(function() {
+      $('#wrong').fadeOut('fast');
+    }, 4000);}
+
+  if ($("#lost").length != 0){
+    setTimeout(function() {
+      $('#lost').fadeOut('fast');
+    }, 4000);}
+
+  if ($("#won").length != 0){
+    setTimeout(function() {
+      $('#won').fadeOut('fast');
+    }, 4000);}
+
+  if ($("#draw").length != 0){
+    setTimeout(function() {
+      $('#draw').fadeOut('fast');
+    }, 4000);}
+});
+
+</script>
+
+    {% if finished == 1 %}
+      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! Your invite has been sent to your opponent!</div>
+    {% endif %}
+
+    {% if finished == 2 %}
+      <div id="lost" class="alert alert-danger" role="alert">You lost! What a bummer... But don't get discouraged! You'll get 'em next time!</div>
+    {% endif %}
+
+    {% if finished == 3 %}
+      <div id="won" class="alert alert-danger" role="alert">You won! Nice job!</div>
+    {% endif %}
+
+    {% if finished == 4 %}
+      <div id="draw" class="alert alert-danger" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins!</div>
+    {% endif %}
+
 <div class="row">
   <div class="column left">
     <div class="form-group">
