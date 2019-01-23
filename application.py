@@ -44,7 +44,7 @@ results = []
 def index():
     global game_id
     global score
-    # finished 1 mean wrong answer, 2 means lost game, 3 means won, 4 means draw
+    # finished == 1 means wrong answer, 2 means lost, 3 means won, 4 means draw, 5 means all answers correct
     global finished
     score = 0
     if request.method == "GET":
@@ -52,6 +52,7 @@ def index():
         user_index = index_info(session.get("user_id"))
         rows = user_index[0]
         rows2 = user_index[1]
+        # if the user has active games, show them
         if rows or rows2:
             return render_template("index.html", current=rows, current2=rows2, finished=finished)
         else:
@@ -59,11 +60,13 @@ def index():
     else:
         # find on which game the user clicked and send them to that game
         tried_id = int(request.form.get("game_id"))
-        if find_hackers(tried_id, session.get("user_id")):
+        # make sure the user hasn't altered game_ids
+        if has_access(tried_id, session.get("user_id")):
             game_id = tried_id
             return redirect(url_for("play"))
         else:
             return redirect(url_for("index"))
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -83,7 +86,7 @@ def login():
         elif not request.form.get("password"):
             return render_template("login.error.html")
         # query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
+        rows = find_rows(request.form.get("username"))
 
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
@@ -125,18 +128,17 @@ def register():
         elif request.form.get("confirmation") != request.form.get("password"):
             return render_template("register.error.html")
         # check to see whether username already exists
-        elif len(db.execute("SELECT id FROM users WHERE username = :usr;", usr=request.form.get("username"))):
+        elif len(check_exists(request.form.get("username"))):
             return render_template("register.error.html")
         # query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
+        rows = find_rows(request.form.get("username"))
         games_won = 0
 
         # check if username is taken
         if len(rows) == 1:
             return render_template("register.error.html")
         # add user to database
-        insert = db.execute("INSERT INTO users (username,hash, games_won) VALUES (:username,:hash1, :games_won)",
-                            username=request.form.get("username"), hash1=pwd_context.hash(request.form.get("password")), games_won=games_won)
+        create_user(request.form.get("username"), pwd_context.hash(request.form.get("password")), games_won)
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
@@ -146,10 +148,11 @@ def register():
 @login_required
 def play():
     """Page where users can answers questions."""
-    # initiate game
+    # initialize game
     global score
     global game_id
     global finished
+    # make sure the user is joining a valid game
     if game_id > 0:
         thisRound = init_game(game_id)
         if thisRound:
@@ -196,30 +199,36 @@ def play():
                 else:
                     # if player 2 is playing, check who won
                     if to_beat > score:
+                        # create the result
                         winner = find_username(players[0]["player1_id"])
                         loser = find_username(session.get("user_id"))
                         result = winner + " " + str(to_beat) + "-" + str(score) + " " + loser
                         finish_game(result, game_id)
+                        # reset variables
                         score = 0
                         game_id = 0
                         finished = 2
-                        won = find_won(players[0]["player1_id"])
-                        update_game(won, players[0]["player1_id"])
+                        # add a win to the correct users' profile
+                        increase_won(players[0]["player1_id"])
                         return redirect(url_for("index"))
                     elif to_beat < score:
+                        # create the result
                         winner = find_username(session.get("user_id"))
                         loser = find_username(players[0]["player1_id"])
                         result = loser + " " + str(to_beat) + "-" + str(score) + " " + winner
                         finish_game(result, game_id)
+                        # reset variables
                         score = 0
                         game_id = 0
                         finished = 3
-                        won = find_won(session.get("user_id"))
-                        update_game(won, session.get("user_id"))
+                        # add a win to the correct users' profile
+                        increase_won(session.get("user_id"))
                         return redirect(url_for("index"))
                     elif to_beat == score:
+                        # create the result
                         result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
                         finish_game(result, game_id)
+                        # reset variables
                         score = 0
                         game_id = 0
                         finished = 4
@@ -246,9 +255,9 @@ def find_game():
             results = search_user(username)
             # if the username exists, save it and show the user the results
             return redirect(url_for("browse_users"))
-        # if the user chooses a random user, get all id's from the databse
+        # if the user chooses a random user, get all ids from the databse
         elif request.form['find_button'] == 'random':
-            ids = db.execute("SELECT id FROM users")
+            ids = all_ids()
             # choose a random id
             random_id = random.randrange(len(ids))
             invite_id = ids[random_id]["id"]
@@ -266,6 +275,7 @@ def find_game():
 @login_required
 def browse_users():
     """Show the user all matching users and let them invite them."""
+    # create variables
     global results
     global game_id
     global finished
@@ -289,12 +299,12 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    """Shows the user their match history."""
+    """Shows the user their recent matches."""
     global score
     global finished
     finished = 0
     score = 0
-    # find all the users' games that are done
+    # find the users' recent games that are done
     history = user_history(session.get("user_id"))
     # find the usernames of the players involved in the matches
     for game in range(len(history)):
@@ -307,10 +317,11 @@ def history():
 @login_required
 def leaderboard():
     """Shows the 8 players with the most games won."""
+    # create variables
     global score
     global finished
     finished = 0
     score = 0
-    position = 0
+    # find the top 8 players
     hoogste = highest()
-    return render_template("leaderboard.html", hoogste = hoogste)
+    return render_template("leaderboard.html", hoogste=hoogste)
