@@ -253,8 +253,14 @@ main td
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
+<<<<<<< HEAD
+size {
+  width: 70px;
+  height: 30px;
+=======
 .alert {
     margin-right: auto;
     margin-left: auto;
     width: 75%;
+>>>>>>> 6f5ea707f5232c8294f7134b75d8b157ae5fa559
 }
