@@ -5,9 +5,17 @@
 {% endblock %}
 
 {% block main %}
-<div class="alert alert-danger" role="alert">
-The input was invalid!
-</div>    <form action="{{ url_for('login') }}" method="post">
+    {% if error == 1 %}
+      <div class="alert alert-danger" role="alert">
+        The input was invalid!
+      </div>
+    {% endif %}
+    {% if error == 2 %}
+      <div class="alert alert-danger" role="alert">
+        SUKKEL
+      </div>
+    {% endif %}
+  <form action="{{ url_for('login') }}" method="post">
         <div class = test>
         <fieldset>
             <div class="form-group">

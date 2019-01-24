@@ -39,7 +39,6 @@ game_id = 0
 finished = 0
 results = []
 
-
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
