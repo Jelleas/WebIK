@@ -10,6 +10,7 @@ from re import sub
 from decimal import Decimal
 import random
 from jinja2 import Environment, PackageLoader
+import string
 
 # configure application
 app = Flask(__name__)
@@ -112,7 +113,17 @@ def logout():
 
     # redirect user to login form
     return redirect(url_for("login"))
-
+@app.route("/forgottenpassword", methods=["GET", "POST"])
+def forgottenpassword():
+    if request.method == "POST":
+        requester=request.form.get("username")
+        requester_mail=db.execute("select mail from users where username=:username", username=requester)
+        new_password=''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
+        reset_password=db.execute("update users set hash=:password where username=:username",password=pwd_context.hash(new_password),username=requester)
+        send_mail(requester_mail[0]["mail"],new_password)
+        return render_template("login.html")
+    else:
+        return render_template("forgottenpassword.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

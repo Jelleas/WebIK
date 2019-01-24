@@ -81,6 +81,26 @@ def init_game(game_id):
     else:
         return False
 
+def send_mail(requester_mail,new_password):
+    import smtplib, ssl
+    "Set up the connection to send the e-mail and "
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = "webik04@gmail.com"
+    password = "Amsterdam123!"
+    message = """\
+    Subject: Geography Guru Password Reset
+
+    A new password was requested.
+    Your new password is: """+new_password+"""
+    We hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you
+    wouldn't forget your password!
+    """
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, requester_mail, message)
 
 def update_score(score, game_id, status):
     """Update the score after the first player is finished."""
