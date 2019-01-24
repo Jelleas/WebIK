@@ -88,19 +88,20 @@ def send_mail(requester_mail,new_password):
     smtp_server = "smtp.gmail.com"
     sender_email = "webik04@gmail.com"
     password = "Amsterdam123!"
+    subject="Geography Guru Password Reset"
     message = """\
-    Geography Guru
-    Subject: Geography Guru Password Reset
+    Dear user,
+
     A new password was requested.
     Your new password is: """+new_password+"""
     We hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you
-    wouldn't forget your password!
+    wouldn't forget your password as often!
     """
-
+    text='Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
-        server.sendmail(sender_email, requester_mail, message)
+        server.sendmail(sender_email, requester_mail, text)
 
 def update_score(score, game_id, status):
     """Update the score after the first player is finished."""
