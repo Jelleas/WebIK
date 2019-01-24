@@ -135,6 +135,8 @@ def register():
             return render_template("register.error.html")
         elif not request.form.get("confirmation"):
             return render_template("register.error.html")
+        elif not request.form.get("mail"):
+            return render_template("register.error.html")
         elif request.form.get("confirmation") != request.form.get("password"):
             return render_template("register.error.html")
         # check to see whether username already exists
