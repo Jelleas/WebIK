@@ -37,6 +37,7 @@ score = 0
 game_id = 0
 finished = 0
 results = []
+error = 0
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -81,15 +82,18 @@ def login():
     if request.method == "POST":
         # ensure username was submitted
         if not request.form.get("username"):
+            error = 1
             return render_template("login.error.html")
         # ensure password was submitted
         elif not request.form.get("password"):
+            error = 1
             return render_template("login.error.html")
         # query database for username
         rows = find_rows(request.form.get("username"))
 
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
+            error = 2
             return render_template("login.error.html")
 
         # remember which user has logged in
