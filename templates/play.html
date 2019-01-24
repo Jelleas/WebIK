@@ -13,14 +13,14 @@
     <tr class="table-info">
         {% for answer in answers[:1] %}
             <td>
-                <button class="btn btn-primary" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button class="btn btn-eerste" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
     <tr>
         {% for answer in answers[1:2] %}
             <td>
-                <button class="btn btn-danger" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button class="btn btn-tweede" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
@@ -28,18 +28,18 @@
     <tr>
         {% for answer in answers[2:3] %}
             <td>
-                <button class="btn btn-success" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button class="btn btn-derde" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
           {% endfor %}
     </tr>
     <tr>
         {% for answer in answers[3:4] %}
             <td>
-                <button class="btn btn-warning" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button class="btn btn-vierde" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
-    <div>
+    <div class="spelinfo">
         {% if to_beat != 999 %}
             score to beat: {{ to_beat }}
         {% endif %}
