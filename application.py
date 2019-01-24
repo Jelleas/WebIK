@@ -262,25 +262,11 @@ def find_game():
         return render_template("find_game.html")
     else:
         # if the user typed in a username, look it up in the database
-        if request.form['find_button'] == 'search':
-            username = request.form.get("user")
-            results = search_user(username)
-            # if the username exists, save it and show the user the results
-            return redirect(url_for("browse_users"))
-        # if the user chooses a random user, get all ids from the databse
-        elif request.form['find_button'] == 'random':
-            ids = all_ids()
-            # choose a random id
-            random_id = random.randrange(len(ids))
-            invite_id = ids[random_id]["id"]
-            # keep choosing a random id while the random id is the same as the user's id
-            while invite_id == session.get("user_id"):
-                random_id = random.randrange(len(ids))
-                invite_id = ids[random_id]["id"]
-            # create a game with the user id and the random id and look up the game id
-            game_id = create_game(session.get("user_id"), invite_id)
-            # put the player in-game
-            return redirect(url_for("play"))
+        username = request.form.get("user")
+        results = search_user(username)
+        # if the username exists, save it and show the user the results
+        return redirect(url_for("browse_users"))
+
 
 
 @app.route("/browse_users", methods=["GET", "POST"])
@@ -337,3 +323,27 @@ def leaderboard():
     # find the top 8 players
     hoogste = highest()
     return render_template("leaderboard.html", hoogste=hoogste)
+
+@app.route("/_instaplay", methods=["GET"])
+@login_required
+def instaplay():
+    """Let the user play against a random user."""
+    global game_id
+    global results
+    global score
+    global finished
+    finished = 0
+    score = 0
+    # get all ids from the databse
+    ids = all_ids()
+    # choose a random id
+    random_id = random.randrange(len(ids))
+    invite_id = ids[random_id]["id"]
+    # keep choosing a random id while the random id is the same as the user's id
+    while invite_id == session.get("user_id"):
+        random_id = random.randrange(len(ids))
+        invite_id = ids[random_id]["id"]
+    # create a game with the user id and the random id and look up the game id
+    game_id = create_game(session.get("user_id"), invite_id)
+    # put the player in-game
+    return redirect(url_for("play"))
