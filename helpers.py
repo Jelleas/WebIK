@@ -141,4 +141,5 @@ def check_exists(username):
 
 
 def all_ids():
+    """Return all user_ids in the database."""
     return db.execute("SELECT id FROM users")
