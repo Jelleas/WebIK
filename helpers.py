@@ -86,8 +86,8 @@ def send_mail(requester_mail,new_password):
     "Set up the connection to send the e-mail and "
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "webik04@gmail.com"
-    password = "Amsterdam123!"
+    sender_email = "GeographyGuruRecovery@gmail.com"
+    password = "webIK201904"
     subject="Geography Guru Password Reset"
     message = """\
     Dear user,
