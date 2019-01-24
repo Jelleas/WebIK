@@ -129,10 +129,10 @@ def find_rows(username):
     return db.execute("SELECT * FROM users WHERE username = :username COLLATE NOCASE", username=username)
 
 
-def create_user(username, hashed, games_won):
+def create_user(username, hashed, games_won,mail):
     """Adds a new user to the database."""
-    db.execute("INSERT INTO users (username, hash, games_won) VALUES (:username, :hashed, :games_won)",
-               username=username, hashed=hashed, games_won=games_won)
+    db.execute("INSERT INTO users (username, hash, games_won,mail) VALUES (:username, :hashed, :games_won,:mail)",
+               username=username, hashed=hashed, games_won=games_won,mail=mail)
 
 
 def check_exists(username):

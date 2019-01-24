@@ -138,7 +138,7 @@ def register():
         if len(rows) == 1:
             return render_template("register.error.html")
         # add user to database
-        create_user(request.form.get("username"), pwd_context.hash(request.form.get("password")), games_won)
+        create_user(request.form.get("username"), pwd_context.hash(request.form.get("password")), games_won,request.form.get("mail"))
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
@@ -194,7 +194,7 @@ def play():
                     update_score(score, game_id, "active")
                     score = 0
                     game_id = 0
-                    finished = [1, game["correct_answer"]]
+                    finished = 1
                     return redirect(url_for("index"))
                 else:
                     # if player 2 is playing, check who won
@@ -207,7 +207,7 @@ def play():
                         # reset variables
                         score = 0
                         game_id = 0
-                        finished = [2, game["correct_answer"]]
+                        finished = 2
                         # add a win to the correct users' profile
                         increase_won(players[0]["player1_id"])
                         return redirect(url_for("index"))
@@ -220,7 +220,7 @@ def play():
                         # reset variables
                         score = 0
                         game_id = 0
-                        finished = [3, game["correct_answer"]]
+                        finished = 3
                         # add a win to the correct users' profile
                         increase_won(session.get("user_id"))
                         return redirect(url_for("index"))
@@ -231,7 +231,7 @@ def play():
                         # reset variables
                         score = 0
                         game_id = 0
-                        finished = [4, game["correct_answer"]]
+                        finished = 4
                         return redirect(url_for("index"))
 
 
