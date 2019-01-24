@@ -12,45 +12,45 @@ $(window).on('load', function() {
   if ($("#wrong").length != 0){
     setTimeout(function() {
       $('#wrong').fadeOut('fast');
-    }, 4000);}
+    }, 7500);}
 
   if ($("#lost").length != 0){
     setTimeout(function() {
       $('#lost').fadeOut('fast');
-    }, 4000);}
+    }, 7500);}
 
   if ($("#won").length != 0){
     setTimeout(function() {
       $('#won').fadeOut('fast');
-    }, 4000);}
+    }, 7500);}
 
   if ($("#draw").length != 0){
     setTimeout(function() {
       $('#draw').fadeOut('fast');
-    }, 4000);}
+    }, 7500);}
 
   if ($("#done").length != 0){
     setTimeout(function() {
       $('#done').fadeOut('fast');
-    }, 4000);}
+    }, 7500);}
 });
 
 </script>
 
-    {% if finished == 1 %}
-      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! Your invite has been sent to your opponent!</div>
+    {% if finished[0] == 1 %}
+      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! The right answer was: {{ finished[1] }}.</div>
     {% endif %}
 
-    {% if finished == 2 %}
-      <div id="lost" class="alert alert-danger" role="alert">You lost! What a bummer... But don't get discouraged! You'll get 'em next time!</div>
+    {% if finished[0] == 2 %}
+      <div id="lost" class="alert alert-danger" role="alert">You lost! What a bummer... But don't get discouraged! You'll get 'em next time! The right answer was: {{ finished[1] }}</div>
     {% endif %}
 
-    {% if finished == 3 %}
-      <div id="won" class="alert alert-danger" role="alert">You won! Nice job!</div>
+    {% if finished[0] == 3 %}
+      <div id="won" class="alert alert-danger" role="alert">You won! Nice job! The answer to that last question was: {{ finished[1] }}</div>
     {% endif %}
 
-    {% if finished == 4 %}
-      <div id="draw" class="alert alert-danger" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins!</div>
+    {% if finished[0] == 4 %}
+      <div id="draw" class="alert alert-danger" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins! The right answer was: {{ finished[1] }}</div>
     {% endif %}
 
     {% if finished == 5 %}
