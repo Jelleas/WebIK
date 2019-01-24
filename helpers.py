@@ -164,3 +164,11 @@ def check_exists(username):
 def all_ids():
     """Return all user_ids in the database."""
     return db.execute("SELECT id FROM users")
+
+def find_email(username):
+    """Find the email address associated with a given username."""
+    return db.execute("select mail from users where username=:username COLLATE NOCASE", username=username)
+
+def reset_password(new_password, username):
+    """update a user's password."""
+    db.execute("update users set hash=:password where username=:username", password=new_password, username=username)
