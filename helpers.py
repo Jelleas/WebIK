@@ -89,8 +89,8 @@ def send_mail(requester_mail,new_password):
     sender_email = "webik04@gmail.com"
     password = "Amsterdam123!"
     message = """\
+    Geography Guru
     Subject: Geography Guru Password Reset
-
     A new password was requested.
     Your new password is: """+new_password+"""
     We hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you
