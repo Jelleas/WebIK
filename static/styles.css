@@ -57,7 +57,7 @@ html, body {
   width: 100%;
   border: 0px solid #fff;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   margin-top: 0.2rem;
   margin-left:0.1rem;
   margin-right:0.1rem;
@@ -191,58 +191,79 @@ main td
 }
 .question {
   color: black;
-  font-size: 1.5rem;
+  font-size: 35px;
   font-family: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-variant: normal;
-  margin-top: 1rem;
+  top: 5%;
 }
 
-[class="1"] {
-  width: 120px;
-  margin-left: 35px;
-  display: block;
-  background-color: yellow;
-  position: fixed;
-  top: 45%;
-  left: 55%;
-  margin-top: -50px;
-  margin-left: -100px;
+.spelinfo {
+  color: black;
+  font-size: 30px;
+  position:absolute;
+  float: left;
+  left: 600px;
+  margin-top: 290px;
 }
 
-[class="2"] {
-  width: 120px;
-  margin-left: 35px;
-  display: block;
-  background-color: cyan;
-  position: fixed;
-  top: 45%;
-  left: 45%;
-  margin-top: -50px;
-  margin-left: -100px;
-}
-
-[class="3"] {
-  width: 120px;
-  margin-left: 35px;
-  display: block;
-  background-color: red;
-  position: fixed;
-  top: 55%;
-  left: 55%;
-  margin-top: -50px;
-  margin-left: -100px;
-}
-
-[class="4"] {
-  width: 120px;
+[class="btn btn-eerste"] {
+  width: 285px;
+  height: 165px;
   margin-left: 35px;
   display: block;
   background-color: green;
   position: fixed;
-  top: 55%;
-  left: 45%;
+  top: 40%;
+  left: 36%;
   margin-top: -50px;
   margin-left: -100px;
+  font-size: 50px;
+  color: white;
+}
+
+[class="btn btn-tweede"] {
+  width: 285px;
+  height: 165px;
+  margin-left: 35px;
+  display: block;
+  background-color: blue;
+  position: fixed;
+  top: 40%;
+  left: 58%;
+  margin-top: -50px;
+  margin-left: -100px;
+  font-size: 50px;
+  color: white;
+}
+
+[class="btn btn-derde"] {
+  width: 285px;
+  height: 165px;
+  margin-left: 35px;
+  display: block;
+  background-color: red;
+  position: fixed;
+  top: 65%;
+  left: 36%;
+  margin-top: -50px;
+  margin-left: -100px;
+  font-size: 50px;
+  color: white;
+}
+
+[class="btn btn-vierde"] {
+  width: 285px;
+  height: 165px;
+  margin-left: 35px;
+  display: block;
+  background-color: purple;
+  position: fixed;
+  top: 65%;
+  left: 58%;
+  margin-top: -50px;
+  margin-left: -100px;
+  font-size: 50px;
+  color: white;
 >>>>>>> 2790433441ec506c91457c20961fe52ac9efc1ad
 }
 
