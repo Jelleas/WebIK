@@ -112,9 +112,9 @@ def forgottenpassword():
     """Sent a user an email with a new randomly generated password."""
     # Find the user that wants their password reset, create a password, and send an email
     if request.method == "POST":
-        requester=request.form.get("username")
-        requester_mail=find_email(requester)
-        new_password=''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
+        requester = request.form.get("username")
+        requester_mail = find_email(requester)
+        new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
         reset_password(pwd_context.hash(new_password), requester)
         send_mail(requester_mail[0]["mail"], new_password)
         return render_template("login.html")
@@ -149,7 +149,8 @@ def register():
         if len(rows) == 1:
             return render_template("register.error.html")
         # add user to database
-        create_user(request.form.get("username"), pwd_context.hash(request.form.get("password")), games_won,request.form.get("mail"))
+        create_user(request.form.get("username"), pwd_context.hash(
+            request.form.get("password")), games_won, request.form.get("mail"))
         return redirect(url_for("login"))
     else:
         return render_template("register.html")
@@ -275,7 +276,6 @@ def find_game():
 
         # if the username exists, save it and show the user the results
         return redirect(url_for("browse_users"))
-
 
 
 @app.route("/browse_users", methods=["GET", "POST"])
