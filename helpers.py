@@ -170,5 +170,19 @@ def find_email(username):
     return db.execute("select mail from users where username=:username COLLATE NOCASE", username=username)
 
 def reset_password(new_password, username):
-    """update a user's password."""
+    """Update a user's password."""
     db.execute("update users set hash=:password where username=:username", password=new_password, username=username)
+
+def all_correct(game_id, to_beat, user_id, players):
+    """Handles the edge case in which a user has all questions correct."""
+    # check which round the player is in and if they won/drew
+    if to_beat == 999:
+        update_score(50, game_id, "active")
+    elif to_beat < 50:
+        winner = find_username(session.get("user_id"))
+        loser = find_username(players[0]["player1_id"])
+        result = winner + " " + str(50) + "-" + str(to_beat) + " " + loser
+        finish_game(result, game_id)
+    elif to_beat == 50:
+        result = "Draw: " + "(" + str(50) + "-" + str(50) + ")"
+        finish_game(result, game_id)

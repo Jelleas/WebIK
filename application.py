@@ -168,7 +168,15 @@ def play():
     # make sure the user is joining a valid game
     if game_id > 0:
         thisRound = init_game(game_id)
-        if thisRound:
+        # handle edgecase in which the user has all questions correct
+        # if not, create the variables for the current round
+        if score >= 50 and thisRound:
+            all_correct(game_id, thisRound[2], session.get("user_id"), thisRound[1])
+            session["score"] = 0
+            session["game_id"] = 0
+            session["finished"] = 5
+            return redirect(url_for("index"))
+        elif thisRound:
             game = thisRound[0]["results"][score]
             players = thisRound[1]
             to_beat = thisRound[2]
@@ -190,73 +198,63 @@ def play():
             opponent = find_username(players[0]["player1_id"])
         return render_template("play.html", question=question, answers=answers, to_beat=to_beat, opponent=opponent, score=score)
     else:
-
-        # if the user answered all questions correct, end their turn
-        if score >= 50:
-            update_score(score, game_id, "active")
-            session["score"] = 0
-            session["game_id"] = 0
-            session["finished"] = 5
-            return redirect(url_for("index"))
+        # increase the score when the user gives the right answer
+        if request.form.get("answer") == game["correct_answer"]:
+            session["score"] = session.get("score") + 1
+            return redirect(url_for('play'))
         else:
 
-            # increase the score when the user gives the right answer
-            if request.form.get("answer") == game["correct_answer"]:
-                session["score"] = session.get("score") + 1
-                return redirect(url_for('play'))
+            # when the user doesn't give the right answer, check who is playing (player 1 or player 2)
+            if to_beat == 999:
+                # if player 1 is playing, save their score
+                update_score(score, game_id, "active")
+                session["score"] = 0
+                session["game_id"] = 0
+                session["finished"] = [1, game["correct_answer"]]
+                return redirect(url_for("index"))
             else:
 
-                # when the user doesn't give the right answer, check who is playing (player 1 or player 2)
-                if to_beat == 999:
-                    # if player 1 is playing, save their score
-                    update_score(score, game_id, "active")
+                # if player 2 is playing, check who won
+                if to_beat > score:
+                    # create the result
+                    winner = find_username(players[0]["player1_id"])
+                    loser = find_username(session.get("user_id"))
+                    result = winner + " " + str(to_beat) + "-" + str(score) + " " + loser
+                    finish_game(result, game_id)
+
+                    # reset variables
                     session["score"] = 0
                     session["game_id"] = 0
-                    session["finished"] = [1, game["correct_answer"]]
+                    session["finished"] = [2, game["correct_answer"]]
+
+                    # add a win to the correct users' profile
+                    increase_won(players[0]["player1_id"])
                     return redirect(url_for("index"))
-                else:
+                elif to_beat < score:
+                    # create the result
+                    winner = find_username(session.get("user_id"))
+                    loser = find_username(players[0]["player1_id"])
+                    result = loser + " " + str(to_beat) + "-" + str(score) + " " + winner
+                    finish_game(result, game_id)
 
-                    # if player 2 is playing, check who won
-                    if to_beat > score:
-                        # create the result
-                        winner = find_username(players[0]["player1_id"])
-                        loser = find_username(session.get("user_id"))
-                        result = winner + " " + str(to_beat) + "-" + str(score) + " " + loser
-                        finish_game(result, game_id)
+                    # reset variables
+                    session["score"] = 0
+                    session["game_id"] = 0
+                    session["finished"] = [3, game["correct_answer"]]
 
-                        # reset variables
-                        session["score"] = 0
-                        session["game_id"] = 0
-                        session["finished"] = [2, game["correct_answer"]]
+                    # add a win to the correct users' profile
+                    increase_won(session.get("user_id"))
+                    return redirect(url_for("index"))
+                elif to_beat == score:
+                    # create the result
+                    result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
+                    finish_game(result, game_id)
 
-                        # add a win to the correct users' profile
-                        increase_won(players[0]["player1_id"])
-                        return redirect(url_for("index"))
-                    elif to_beat < score:
-                        # create the result
-                        winner = find_username(session.get("user_id"))
-                        loser = find_username(players[0]["player1_id"])
-                        result = loser + " " + str(to_beat) + "-" + str(score) + " " + winner
-                        finish_game(result, game_id)
-
-                        # reset variables
-                        session["score"] = 0
-                        session["game_id"] = 0
-                        session["finished"] = [3, game["correct_answer"]]
-
-                        # add a win to the correct users' profile
-                        increase_won(session.get("user_id"))
-                        return redirect(url_for("index"))
-                    elif to_beat == score:
-                        # create the result
-                        result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
-                        finish_game(result, game_id)
-
-                        # reset variables
-                        session["score"] = 0
-                        session["game_id"] = 0
-                        session["finished"] = [4, game["correct_answer"]]
-                        return redirect(url_for("index"))
+                    # reset variables
+                    session["score"] = 0
+                    session["game_id"] = 0
+                    session["finished"] = [4, game["correct_answer"]]
+                    return redirect(url_for("index"))
 
 
 @app.route("/find_game", methods=["GET", "POST"])
