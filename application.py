@@ -112,6 +112,7 @@ def logout():
 
     # redirect user to login form
     return redirect(url_for("login"))
+
 @app.route("/forgottenpassword", methods=["GET", "POST"])
 def forgottenpassword():
     if request.method == "POST":
@@ -139,6 +140,7 @@ def register():
             return render_template("register.error.html")
         elif request.form.get("confirmation") != request.form.get("password"):
             return render_template("register.error.html")
+
         # check to see whether username already exists
         elif len(check_exists(request.form.get("username"))):
             return render_template("register.error.html")
@@ -279,17 +281,20 @@ def browse_users():
     global finished
     finished = 0
     if request.method == "POST":
-        # find which user was invited
-        invite_id = int(request.form.get("invite_id"))
-        # check input
-        if invite_id == session.get("user_id"):
-            error = "Unable to invite yourself"
-            return render_template("browse_users.html", results=results, error=error)
+        if request.form["invite_id"] != "back":
+            # find which user was invited
+            invite_id = int(request.form.get("invite_id"))
+            # check input
+            if invite_id == session.get("user_id"):
+                error = "Unable to invite yourself"
+                return render_template("browse_users.html", results=results, error=error)
+            else:
+                # create a game and lookup the game id
+                game_id = create_game(session.get("user_id"), invite_id)
+                # put the player in-game
+                return redirect(url_for("play"))
         else:
-            # create a game and lookup the game id
-            game_id = create_game(session.get("user_id"), invite_id)
-            # put the player in-game
-            return redirect(url_for("play"))
+            return redirect(url_for("find_game"))
     else:
         return render_template("browse_users.html", results=results)
 
@@ -339,6 +344,7 @@ def instaplay():
     # choose a random id
     random_id = random.randrange(len(ids))
     invite_id = ids[random_id]["id"]
+
     # keep choosing a random id while the random id is the same as the user's id
     while invite_id == session.get("user_id"):
         random_id = random.randrange(len(ids))

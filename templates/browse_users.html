@@ -26,6 +26,7 @@
   <div id="error" class="alert alert-danger" role="alert">You cannot invite yourself!</div>
 {% endif %}
 
+{% if results %}
 <b><label for="exampleTextarea"><h1>Users</h1></label></b>
     <table class="table">
       <thead>
@@ -34,7 +35,6 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      {% if results %}
           {% for user in results %}
             <tr>
                 <td>{{ user.username }}</td> <td><form><button class="btn btn-primary" value="{{ user.id }}" name="invite_id" type="submit" formmethod="POST">Invite</button></form></td>
@@ -49,9 +49,20 @@
               </td>
             </tr>
           {% endfor %}
-        {% else %}
-          <td>No users found :(</td>
-        {% endif %}
+{% else %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="4">Users</th>
+      </tr>
+    </thead>
+    <td colspan="4">No users found :(</td>
+  </table>
+  <br>
+  <form>
+    <button class="btn btn-primary" type="submit" name="invite_id" value="back" formmethod="POST">Go back</button>
+  </form>
+{% endif %}
     </thead>
   </div>
 </div>
