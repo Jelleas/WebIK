@@ -72,14 +72,18 @@ $(window).on('load', function() {
     </div>
   </div>
   <div class="column right">
+<<<<<<< HEAD
     <h1><p class ="text-success">Current Games</p></h1>
+=======
+    <b><label for="exampleTextarea"><h1>Current Games</h1></label></b>
+    <div class="scroller">
+>>>>>>> d149a155622c6ba6cf080dfa89e5022e5277a77c
     <table class="table">
       <thead>
         <tr>
           <th scope="col">opponent</th></th>
           <th scope="col">Score</th>
-          <th scope="col">Status</th>
-          <th scope="col"></th>
+          <th colspan="2">Status</th>
         </tr>
       </thead>
       {% if current or current2 %}
@@ -94,8 +98,7 @@ $(window).on('load', function() {
             <tr>
               <td>{{ now.player1_name }}</td>
               <td colspan="1">{{ now.score }}</td>
-              <td>{{ now.status }}</td>
-              <td>
+              <td colspan="2">
                 <form>
                   <button class="btn btn-primary" value="{{ now.game_id }}" name="game_id" type="submit" formmethod="POST">Play!</button>
                 </form>
@@ -106,6 +109,8 @@ $(window).on('load', function() {
           <td colspan="4">No current games :(</td>
         {% endif %}
     </thead>
+    </table>
+    </div>
   </div>
 </div>
 {% endblock %}
