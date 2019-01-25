@@ -38,7 +38,7 @@ $(window).on('load', function() {
 </script>
 
     {% if finished[0] == 1 %}
-      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! The right answer was: {{ finished[1] }}.</div>
+      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! The right answer was: {{ finished[1] }}</div>
     {% endif %}
 
     {% if finished[0] == 2 %}
@@ -46,7 +46,7 @@ $(window).on('load', function() {
     {% endif %}
 
     {% if finished[0] == 3 %}
-      <div id="won" class="alert alert-danger" role="alert">You won! Nice job! The answer to that last question was: {{ finished[1] }}</div>
+      <div id="won" class="alert alert-danger" role="alert">You won! Nice job! <img src="https://thumbs.gfycat.com/EmptyAdoredDutchshepherddog-size_restricted.gif" id="wingif"> The answer to that last question was: {{ finished[1] }}</div>
     {% endif %}
 
     {% if finished[0] == 4 %}

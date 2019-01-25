@@ -29,6 +29,11 @@ html, body {
     text-align: center;
 }
 
+#wingif{
+  width: 2.75%;
+  height: 2.75%;
+}
+
 .test
 {
     /* gets box ot align in middle of page*/
@@ -282,6 +287,10 @@ main td
 size {
   width: 70px;
   height: 30px;
+<<<<<<< HEAD
+=======
+}
+>>>>>>> c8fa8c24a938f73406aeed44cf03e8f53f913577
 
 .alert {
     margin-right: auto;
