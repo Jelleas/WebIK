@@ -89,7 +89,7 @@ def send_mail(requester_mail,new_password):
     sender_email = "webik04@gmail.com"
     password = "Amsterdam123!"
     subject="Geography Guru Password Reset"
-    message=f"Dear user,\n A new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!"
+    message=f"Dear user,\n\nA new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. With all due respect, maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!\n\nBest regards,\n\nThe shambles that is called the development team of Geography Guru"
     text='Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
