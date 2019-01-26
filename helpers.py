@@ -86,17 +86,10 @@ def send_mail(requester_mail,new_password):
     "Set up the connection to send the e-mail and "
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "GeographyGuruRecovery@gmail.com"
-    password = "webIK201904"
+    sender_email = "webik04@gmail.com"
+    password = "Amsterdam123!"
     subject="Geography Guru Password Reset"
-    message = """\
-    Dear user,
-
-    A new password was requested.
-    Your new password is: """+new_password+"""
-
-    We hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!
-    """
+    message=f"Dear user,\n A new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. Maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!"
     text='Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
