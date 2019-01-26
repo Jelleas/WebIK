@@ -235,8 +235,8 @@ main td
   display: block;
   background-color: green;
   position: fixed;
-  top: 30%;
-  left: 38%;
+  top: 40%;
+  left: 37%;
   margin-top: -50px;
   margin-left: -100px;
   font-size: 50px;
@@ -251,8 +251,8 @@ main td
   display: block;
   background-color: blue;
   position: fixed;
-  top: 30%;
-  left: 56%;
+  top: 40%;
+  left: 57%;
   margin-top: -50px;
   margin-left: -100px;
   font-size: 50px;
@@ -267,8 +267,8 @@ main td
   display: block;
   background-color: red;
   position: fixed;
-  top: 53%;
-  left: 38%;
+  top: 65%;
+  left: 37%;
   margin-top: -50px;
   margin-left: -100px;
   font-size: 50px;
@@ -283,8 +283,8 @@ main td
   display: block;
   background-color: purple;
   position: fixed;
-  top: 53%;
-  left: 56%;
+  top: 65%;
+  left: 57%;
   margin-top: -50px;
   margin-left: -100px;
   font-size: 50px;
