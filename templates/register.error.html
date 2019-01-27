@@ -6,9 +6,7 @@
 
 {% block main %}
 
-<div class="alert alert-danger" role="alert">
-The input was invalid!
-</div>
+</script>
     <form action="{{ url_for('register') }}" method="post">
         <div class = test>
         <fieldset>
@@ -22,14 +20,10 @@ The input was invalid!
                 <input class="form-control form-control-lg" name="confirmation" placeholder="Re-enter Password" type="password"/>
             </div>
             <div class="form-group">
-<<<<<<< HEAD
-                <button class="btn btn-primary btn-lg" type="submit">Register</button>
-=======
-                <input class="form-control" name="mail" placeholder="E-mail Address" type="text"/>
+                <input class="form-control form-control-lg" name="mail" placeholder="E-mail Address" type="text"/>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Register</button>
->>>>>>> d149a155622c6ba6cf080dfa89e5022e5277a77c
+                <button class="btn btn-primary btn-lg" type="submit">Register</button>
             </div>
         </fieldset>
         </div>
