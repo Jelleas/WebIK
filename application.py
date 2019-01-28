@@ -121,9 +121,9 @@ def forgottenpassword():
             send_mail(requester_mail, new_password)
             return render_template("login.html")
         else:
-            return render_template("forgottenpassword.html")
+            return render_template("forgottenpassword.html", mailError = 1)
     else:
-        return render_template("forgottenpassword.html")
+        return render_template("forgottenpassword.html", mailError = 0)
 
 
 @app.route("/register", methods=["GET", "POST"])
