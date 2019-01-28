@@ -235,6 +235,7 @@ main td
   font-size: 2.5vw;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  overflow: auto;
 }
 
 [class="btn btn-tweede"] {
@@ -251,6 +252,7 @@ main td
   font-size: 2.5vw;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  overflow: auto;
 }
 
 [class="btn btn-derde"] {
@@ -267,6 +269,7 @@ main td
   font-size: 2.5vw;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  overflow: auto;
 }
 
 [class="btn btn-vierde"] {
@@ -283,6 +286,7 @@ main td
   font-size: 2.5vw;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  overflow: auto;
 >>>>>>> 2790433441ec506c91457c20961fe52ac9efc1ad
 }
 

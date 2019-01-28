@@ -218,37 +218,27 @@ def play():
 
                 return redirect(url_for("index"))
             else:
+                # create the result
+                result = create_result(find_username(players[0]["player1_id"]), to_beat, score, find_username(session.get("user_id")))
+                finish_game(result, game_id)
+
                 # if player 2 is playing, check who won
                 if to_beat > score:
-                    # create the result
-                    result = create_result(find_username(players[0]["player1_id"]), to_beat, score, find_username(session.get("user_id")))
-                    finish_game(result, game_id)
-
                     # reset variables
                     reset_session(2, game["correct_answer"])
-
                     # add a win to the correct users' profile
                     increase_won(players[0]["player1_id"])
                     return redirect(url_for("index"))
                 elif to_beat < score:
-                    # create the result
-                    result = create_result(find_username(players[0]["player1_id"]), to_beat, score, find_username(session.get("user_id")))
-                    finish_game(result, game_id)
-
-                    # reset variables
                     reset_session(3, game["correct_answer"])
-
-                    # add a win to the correct users' profile
                     increase_won(session.get("user_id"))
                     return redirect(url_for("index"))
                 elif to_beat == score:
                     # create the result
                     result = F"Draw: ({score}-{score})"
                     finish_game(result, game_id)
-
                     # reset variables
                     reset_session(4, game["correct_answer"])
-
                     return redirect(url_for("index"))
 
 
