@@ -5,6 +5,41 @@
 {% endblock %}
 
 {% block main %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(window).on('load', function() {
+  if ($("#noName").length != 0){
+    setTimeout(function() {
+      $('#noName').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noPass").length != 0){
+    setTimeout(function() {
+      $('#noPass').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#wrong").length != 0){
+    setTimeout(function() {
+      $('#wrong').fadeOut('fast');
+    }, 5000);}
+});
+
+</script>
+
+    {% if loginerror == 1 %}
+      <div id="noName" class="alert alert-danger" role="alert">Please fill in a username</div>
+    {% endif %}
+
+    {% if loginerror == 2 %}
+      <div id="noPass" class="alert alert-danger" role="alert">Please fill in a password</div>
+    {% endif %}
+
+    {% if loginerror == 3 %}
+      <div id="wrong" class="alert alert-danger" role="alert">Username and password do not match</div>
+    {% endif %}
+
+
     <form action="{{ url_for('login') }}" method="post">
         <div class = test>
         <fieldset>

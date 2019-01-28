@@ -179,3 +179,12 @@ def all_correct(game_id, to_beat, user_id, players):
     elif to_beat == 50:
         result = "Draw: " + "(" + str(50) + "-" + str(50) + ")"
         finish_game(result, game_id)
+
+def create_result(player1, score1, score2, player2):
+    """Return the result in of the game in a nicely formatted manner"""
+    return F"{player1} {str(score1)}-{score2} {player2}"
+
+def reset_session(finishCode, correctAnswer):
+    session["score"] = 0
+    session["game_id"] = 0
+    session["finished"] = [finishCode, correctAnswer]
