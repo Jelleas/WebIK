@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    Hello, {{ username }}, welcome to your personal page! You have won a total of {{ games_won }} games.
+    <p> If you want to change your password, you have the option below. </p>
+    <form action="{{ url_for('profile') }}" method="post">
+        <div class = test>
+        <fieldset>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="password" placeholder="Current password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="confirmnewpassword" placeholder="Confirm new password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success btn-lg" type="submit">Change password</button>
+            </div>
+        </div
+        </fieldset>
+    </form>
+{% endblock %}

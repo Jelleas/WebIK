@@ -188,3 +188,7 @@ def reset_session(finishCode, correctAnswer):
     session["score"] = 0
     session["game_id"] = 0
     session["finished"] = [finishCode, correctAnswer]
+
+def updatepassword(newpassword, user_id):
+    """update the users' password"""
+    db.execute("UPDATE users SET hash = :newhash WHERE user_id= :user_id", newhash=newpassword, user_id=user_id)

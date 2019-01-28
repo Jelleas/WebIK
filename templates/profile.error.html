@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    {% if error == 1 %}
+      <div class="alert alert-danger" role="alert">
+        The input was invalid!
+      </div>
+    {% endif %}
+      <div class="alert alert-danger" role="alert">
+        The input was invalid!
+      </div>
+    <form action="{{ url_for('profile') }}" method="post">
+        <div class = test>
+        <fieldset>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="password" placeholder="Current password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="confirmnewpassword" placeholder="Confirm new password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success btn-lg" type="submit">Change password</button>
+            </div>
+        </div
+        </fieldset>
+    </form>
+{% endblock %}
