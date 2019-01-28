@@ -219,7 +219,7 @@ def play():
                     # create the result
                     winner = find_username(players[0]["player1_id"])
                     loser = find_username(session.get("user_id"))
-                    result = winner + " " + str(to_beat) + "-" + str(score) + " " + loser
+                    result = F"{winner} {str(to_beat)}-{score} {loser}"
                     finish_game(result, game_id)
 
                     # reset variables
@@ -234,7 +234,7 @@ def play():
                     # create the result
                     winner = find_username(session.get("user_id"))
                     loser = find_username(players[0]["player1_id"])
-                    result = loser + " " + str(to_beat) + "-" + str(score) + " " + winner
+                    result = F"{loser} {str(to_beat)}-{score} {winner}"
                     finish_game(result, game_id)
 
                     # reset variables
@@ -247,7 +247,7 @@ def play():
                     return redirect(url_for("index"))
                 elif to_beat == score:
                     # create the result
-                    result = "Draw: " + "(" + str(score) + "-" + str(to_beat) + ")"
+                    result = F"Draw: ({score}-{score})"
                     finish_game(result, game_id)
 
                     # reset variables
