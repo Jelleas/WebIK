@@ -95,11 +95,9 @@ def send_mail(requester_mail,new_password):
     text='Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        try:
-            server.login(sender_email, password)
-            server.sendmail(sender_email, requester_mail, text)
-        except:
-            return render_template("login.html")
+        server.login(sender_email, password)
+        server.sendmail(sender_email, requester_mail, text)
+
 
 def update_score(score, game_id, status):
     """Update the score after the first player is finished."""
@@ -169,7 +167,7 @@ def find_email(username):
 
 def mail_to_name(mail):
     """Find the username associated with an email adress."""
-    return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)
+    return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)[0]["username"]
 
 def reset_password(new_password, username):
     """Update a user's password."""

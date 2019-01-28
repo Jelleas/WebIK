@@ -118,8 +118,11 @@ def forgottenpassword():
         if username:
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
             reset_password(pwd_context.hash(new_password), username)
-            send_mail(requester_mail, new_password)
-            return render_template("login.html")
+            try:
+                send_mail(requester_mail, new_password)
+                return render_template("login.html")
+            except:
+                return render_template("forgottenpassword.html", mailError = 2)
         else:
             return render_template("forgottenpassword.html", mailError = 1)
     else:
