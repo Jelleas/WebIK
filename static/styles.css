@@ -21,6 +21,27 @@ html, body {
     overflow: hidden
 }
 
+.jumbotron {
+  /*width: 70%;*/
+  margin: 10%;
+  margin-left: 20%;
+  border: 2px solid #3da562;
+}
+
+.display-3 {
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: #38ad53;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    text-shadow: 0 0 0px black;
+    color: #faf8f8;
+}
+
 .container
 {
     /* center contents */
@@ -102,6 +123,7 @@ html, body {
     padding-bottom: 26.5px;
     line-height: 27px;
     font-size: 1.5rem;
+    text-shadow: 0 0 12px black;
   }
 }
 
