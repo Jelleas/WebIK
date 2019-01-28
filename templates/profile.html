@@ -29,6 +29,11 @@ $(window).on('load', function() {
     setTimeout(function() {
       $('#succes').fadeOut('fast');
     }, 5000);}
+
+    if ($("#wrongOld").length != 0){
+    setTimeout(function() {
+      $('#wrongOld').fadeOut('fast');
+    }, 5000);}
 });
 
 </script>
@@ -46,6 +51,10 @@ $(window).on('load', function() {
     {% endif %}
 
     {% if validate_input == 4 %}
+      <div id="wrongOld" class="alert alert-danger" role="alert">Incorrect (old) password</div>
+    {% endif %}
+
+    {% if validate_input == 5 %}
       <div id="succes" class="alert alert-success" role="alert">Your password has been changed successfully!</div>
     {% endif %}
 
@@ -56,7 +65,10 @@ $(window).on('load', function() {
         <div class = test>
         <fieldset>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password" autofocus/>
+                <input class="form-control form-control-lg" name="oldpassword" placeholder="Old password" type="password" autofocus/>
+            </div>
+            <div class="form-group">
+                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password"/>
             </div>
             <div class="form-group">
                 <input class="form-control form-control-lg" name="confirmnewpassword" placeholder="Confirm password" type="password"/>

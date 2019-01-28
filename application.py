@@ -110,14 +110,18 @@ def logout():
 @app.route("/forgottenpassword", methods=["GET", "POST"])
 def forgottenpassword():
     """Sent a user an email with a new randomly generated password."""
+    # For this function to work, one must follow the steps provided in the send_mail function in helpers.py
     # Find the user that wants their password reset, create a password, and send an email
     if request.method == "POST":
-        requester = request.form.get("username")
-        requester_mail = find_email(requester)
-        new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
-        reset_password(pwd_context.hash(new_password), requester)
-        send_mail(requester_mail[0]["mail"], new_password)
-        return render_template("login.html")
+        requester_mail = request.form.get("email")
+        username = mail_to_name(requester_mail)
+        if username:
+            new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
+            reset_password(pwd_context.hash(new_password), username)
+            send_mail(requester_mail, new_password)
+            return render_template("login.html")
+        else:
+            return render_template("forgottenpassword.html")
     else:
         return render_template("forgottenpassword.html")
 
@@ -128,32 +132,30 @@ def register():
     if request.method == "POST":
         # test user input
         if not request.form.get("username"):
-            return render_template("register.error.html")
+            return render_template("register.html", regError=1)
         elif not request.form.get("password"):
-            return render_template("register.error.html")
+            return render_template("register.html", regError=2)
         elif not request.form.get("confirmation"):
-            return render_template("register.error.html")
+            return render_template("register.html", regError=3)
         elif not request.form.get("mail"):
-            return render_template("register.error.html")
+            return render_template("register.html", regError=4)
         elif request.form.get("confirmation") != request.form.get("password"):
-            return render_template("register.error.html")
+            return render_template("register.html", regError=5)
+        if "@" not in request.form.get("mail"):
+            return render_template("register.html", regError = 6)
 
         # check to see whether username already exists
         elif len(check_exists(request.form.get("username"))):
-            return render_template("register.error.html")
-        # query database for username
-        rows = find_rows(request.form.get("username"))
+            return render_template("register.html", regError=7)
+
         games_won = 0
 
-        # check if username is taken
-        if len(rows) == 1:
-            return render_template("register.error.html")
         # add user to database
         create_user(request.form.get("username"), pwd_context.hash(
             request.form.get("password")), games_won, request.form.get("mail"))
         return redirect(url_for("login"))
     else:
-        return render_template("register.html")
+        return render_template("register.html", regError=0)
 
 
 @app.route("/play", methods=["GET", "POST"])
@@ -370,10 +372,11 @@ def profile():
             return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=2)
         elif not request.form.get("newpassword") == request.form.get("confirmnewpassword"):
             return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=3)
-
+        elif not correct_password(request.form.get("oldpassword"), session.get("user_id")):
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=4)
         else:
             # update the user's password and let them know
             updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
-            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=4)
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=5)
     else:
         return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=0)

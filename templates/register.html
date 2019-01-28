@@ -5,6 +5,77 @@
 {% endblock %}
 
 {% block main %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(window).on('load', function() {
+  if ($("#noName").length != 0){
+    setTimeout(function() {
+      $('#noName').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noPass").length != 0){
+    setTimeout(function() {
+      $('#noPass').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noConf").length != 0){
+    setTimeout(function() {
+      $('#noConf').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noMail").length != 0){
+    setTimeout(function() {
+      $('#noMail').fadeOut('fast');
+    }, 5000);}
+
+    if ($("#noMatch").length != 0){
+    setTimeout(function() {
+      $('#noMatch').fadeOut('fast');
+    }, 5000);}
+
+    if ($("#incMail").length != 0){
+    setTimeout(function() {
+      $('#incMail').fadeOut('fast');
+    }, 5000);}
+
+    if ($("#nameTaken").length != 0){
+    setTimeout(function() {
+      $('#nameTaken').fadeOut('fast');
+    }, 5000);}
+});
+
+</script>
+
+    {% if regError == 1 %}
+      <div id="noName" class="alert alert-danger" role="alert">Please fill in a username</div>
+    {% endif %}
+
+    {% if regError == 2 %}
+      <div id="noPass" class="alert alert-danger" role="alert">Please fill in a password</div>
+    {% endif %}
+
+    {% if regError == 3 %}
+      <div id="noConf" class="alert alert-danger" role="alert">Please confirm your password</div>
+    {% endif %}
+
+    {% if regError == 4 %}
+      <div id="noMail" class="alert alert-danger" role="alert">Please fill in an email adress</div>
+    {% endif %}
+
+    {% if regError == 5 %}
+      <div id="noMatch" class="alert alert-danger" role="alert">Passwords do not match</div>
+    {% endif %}
+
+    {% if regError == 6 %}
+      <div id="incMail" class="alert alert-danger" role="alert">Invalid email adress</div>
+    {% endif %}
+
+    {% if regError == 7 %}
+      <div id="nameTaken" class="alert alert-danger" role="alert">Username is already taken</div>
+    {% endif %}
+
     <form action="{{ url_for('register') }}" method="post">
         <div class = test>
         <fieldset>
@@ -12,13 +83,13 @@
                 <input autocomplete="off" autofocus class="form-control form-control-lg"name="username" placeholder="Username" type="text"/>
             </div>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="password" placeholder="Password" type="password"/>
+                <input autocomplete="off" class="form-control form-control-lg" name="password" placeholder="Password" type="password"/>
             </div>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="confirmation" placeholder="Re-enter Password" type="password"/>
+                <input autocomplete="off" class="form-control form-control-lg" name="confirmation" placeholder="Re-enter Password" type="password"/>
             </div>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="mail" placeholder="E-mail Address" type="text"/>
+                <input autocomplete="off" class="form-control form-control-lg" name="mail" placeholder="E-mail Address" type="text"/>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-lg" type="submit">Register</button>

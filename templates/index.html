@@ -102,7 +102,9 @@ $(window).on('load', function() {
             </tr>
           {% endfor %}
         {% else %}
+        <tr class="table-info">
           <td colspan="4">No current games :(</td>
+        </tr>
         {% endif %}
     </thead>
     </table>

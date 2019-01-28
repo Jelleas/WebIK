@@ -83,19 +83,23 @@ def init_game(game_id):
         return False
 
 def send_mail(requester_mail,new_password):
+    """To use this function, one must first login to gmail on the device. The mail and password are provided below, the phone number associated with the account is 0641493584."""
     import smtplib, ssl
     "Set up the connection to send the e-mail and "
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "webik04@gmail.com"
-    password = "Amsterdam123!"
+    sender_email = "GeographyGuruRecovery@gmail.com"
+    password = "webIK201904"
     subject="Geography Guru Password Reset"
     message=f"Dear user,\n\nA new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. With all due respect, maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!\n\nBest regards,\n\nThe shambles that is called the development team of Geography Guru"
     text='Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, requester_mail, text)
+        try:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, requester_mail, text)
+        except:
+            return render_template("login.html")
 
 def update_score(score, game_id, status):
     """Update the score after the first player is finished."""
@@ -163,6 +167,10 @@ def find_email(username):
     """Find the email address associated with a given username."""
     return db.execute("SELECT mail FROM users WHERE username= :username COLLATE NOCASE", username=username)
 
+def mail_to_name(mail):
+    """Find the username associated with an email adress."""
+    return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)
+
 def reset_password(new_password, username):
     """Update a user's password."""
     db.execute("UPDATE users SET hash= :password WHERE username= :username", password=new_password, username=username)
@@ -200,3 +208,8 @@ def updatepassword(newpassword, user_id):
 def total_games(user_id):
     """Find how many games the user has played"""
     return len(db.execute("SELECT game_id FROM games WHERE (player1_id= :user_id OR player2_id = :user_id) AND (status != 'active' AND status != 'starting')", user_id=user_id))
+
+def correct_password(password, user_id):
+    """Make sure a user's password is correct."""
+    hashed = db.execute("SELECT hash FROM users WHERE id = :user_id", user_id=user_id)[0]["hash"]
+    return pwd_context.verify(password, hashed)
