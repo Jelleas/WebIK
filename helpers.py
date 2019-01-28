@@ -8,6 +8,7 @@ import requests
 import random
 from cs50 import SQL
 import ast
+from passlib.apps import custom_app_context as pwd_context
 
 db = SQL("sqlite:///trivia.db")
 
@@ -160,11 +161,11 @@ def all_ids():
 
 def find_email(username):
     """Find the email address associated with a given username."""
-    return db.execute("select mail from users where username=:username COLLATE NOCASE", username=username)
+    return db.execute("SELECT mail FROM users WHERE username= :username COLLATE NOCASE", username=username)
 
 def reset_password(new_password, username):
     """Update a user's password."""
-    db.execute("update users set hash=:password where username=:username", password=new_password, username=username)
+    db.execute("UPDATE users SET hash= :password WHERE username= :username", password=new_password, username=username)
 
 def all_correct(game_id, to_beat, user_id, players):
     """Handles the edge case in which a user has all questions correct."""
@@ -184,11 +185,18 @@ def create_result(player1, score1, score2, player2):
     """Return the result in of the game in a nicely formatted manner"""
     return F"{player1} {str(score1)}-{score2} {player2}"
 
+
 def reset_session(finishCode, correctAnswer):
+    """reset the session's variables"""
     session["score"] = 0
     session["game_id"] = 0
     session["finished"] = [finishCode, correctAnswer]
 
+
 def updatepassword(newpassword, user_id):
     """update the users' password"""
-    db.execute("UPDATE users SET hash = :newhash WHERE user_id= :user_id", newhash=newpassword, user_id=user_id)
+    db.execute("UPDATE users SET hash = :newhash WHERE id= :user_id", newhash=newpassword, user_id=user_id)
+
+def total_games(user_id):
+    """Find how many games the user has played"""
+    return len(db.execute("SELECT game_id FROM games WHERE (player1_id= :user_id OR player2_id = :user_id) AND (status != 'active' AND status != 'starting')", user_id=user_id))

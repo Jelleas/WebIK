@@ -37,7 +37,7 @@
       </thead>
           {% for user in results %}
             <tr class="table-info">
-                <td>{{ user.username }}</td> <td><form><button class="btn btn-outline-primary" value="{{ user.id }}" name="invite_id" type="submit" formmethod="POST">Invite</button></form></td>
+                <td>{{ user.username }}</td> <td><form><button class="btn btn-primary" value="{{ user.id }}" name="invite_id" type="submit" formmethod="POST">Invite</button></form></td>
             </tr>
           {% endfor %}
           {% for now in current2 %}

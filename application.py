@@ -353,59 +353,27 @@ def instaplay():
     return redirect(url_for("play"))
 
 
-@app.route("/profile", methods=["GET", "POST"])    # op de profile page moet ook nog het aantal gewonnen games staan!
-@login_required                                                    # uiteindelijk: your password has been changed successfully!
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
 def profile():
     """Change password of the user"""
 
-    # forget any user_id
-   # session.clear()
+    username = find_username(session.get("user_id"))
+    games_won = find_won(session.get("user_id"))
+    played_games = total_games(session.get("user_id"))
 
     # ensure validate input
     if request.method == "POST":
-        if not request.form.get("oldpassword"):
-            return render_template("profile.error.html")
-        elif not request.form.get("newpassword"):
-            return render_template("profile.error.html")
+        if not request.form.get("newpassword"):
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=1)
         elif not request.form.get("confirmnewpassword"):
-            return render_template("profile.error.html")
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=2)
         elif not request.form.get("newpassword") == request.form.get("confirmnewpassword"):
-            return render_template("profile.error.html")
-        elif request.form.get("oldpassword") == request.form.get("newpassword"):
-            return render_template("profile.error.html")
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=3)
+
         else:
-            oldpassword = pwd_context.hash(request.form.get("oldpassword"))
-            if not oldpassword == db.execute("SELECT hash FROM users WHERE user_id = :user_id", user_id=session.get("user_id"))[0]["hash"]:
-                return render_template("profile.error.html") # als het wachtwoord veranderen werkt, zullen de errors nog verbeterd worden die aangeven wat de error is
-            else:
-                updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
-
-
-
-     #   rows = find_rows(request.form.get("username"))  # wat doet dit?
-
-        # ensure old password is correct and exists
-    #    oldpassword = pwd_context.hash(request.form.get("oldpassword"))
-     #   if not oldpassword == db.execute("SELECT hash FROM users WHERE user_id = :user_id", user_id=session.get("user_id"))[0]["hash"]:
-       #     return render_template("profile.error.html") # als het wachtwoord veranderen werkt, zullen de errors nog verbeterd worden die aangeven wat de error is
-      #  else:
-        #    updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
-            #return True
-            # todo
-
-    #    updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
-
-
-
-        if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return render_template("profile.error.html")
+            # update the user's password and let them know
+            updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
+            return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=4)
     else:
-       return render_template("profile.html", username=find_username(session.get("user_id")), games_won=find_won(session.get("user_id")))
-
-        #if username and password is correct
-    if pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-        #remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-
-         #redirect user to home page
-        return redirect(url_for("index"))
+        return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=0)

@@ -5,24 +5,66 @@
 {% endblock %}
 
 {% block main %}
-    Hello, {{ username }}, welcome to your personal page! You have won a total of {{ games_won }} games.
-    <p> If you want to change your password, you have the option below. </p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(window).on('load', function() {
+  if ($("#noPass").length != 0){
+    setTimeout(function() {
+      $('#noPass').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noConf").length != 0){
+    setTimeout(function() {
+      $('#noConf').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#noMatch").length != 0){
+    setTimeout(function() {
+      $('#noMatch').fadeOut('fast');
+    }, 5000);}
+
+  if ($("#succes").length != 0){
+    setTimeout(function() {
+      $('#succes').fadeOut('fast');
+    }, 5000);}
+});
+
+</script>
+
+    {% if validate_input == 1 %}
+      <div id="noPass" class="alert alert-danger" role="alert">Please fill in a password</div>
+    {% endif %}
+
+    {% if validate_input == 2 %}
+      <div id="noConf" class="alert alert-danger" role="alert">Please confirm your new password</div>
+    {% endif %}
+
+    {% if validate_input == 3 %}
+      <div id="noMatch" class="alert alert-danger" role="alert">Passwords do not match</div>
+    {% endif %}
+
+    {% if validate_input == 4 %}
+      <div id="succes" class="alert alert-success" role="alert">Your password has been changed successfully!</div>
+    {% endif %}
+
+    Hello {{ username }}, welcome to your personal page! <br>
+    You have won a total of {{ games_won }} out of {{ played_games }} games.
+    <p> If you want to change your password, you can do so below. </p>
     <form action="{{ url_for('profile') }}" method="post">
         <div class = test>
         <fieldset>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="password" placeholder="Current password" type="password"/>
+                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password" autofocus/>
             </div>
             <div class="form-group">
-                <input class="form-control form-control-lg" name="newpassword" placeholder="New password" type="password"/>
-            </div>
-            <div class="form-group">
-                <input class="form-control form-control-lg" name="confirmnewpassword" placeholder="Confirm new password" type="password"/>
+                <input class="form-control form-control-lg" name="confirmnewpassword" placeholder="Confirm password" type="password"/>
             </div>
             <div class="form-group">
                 <button class="btn btn-success btn-lg" type="submit">Change password</button>
             </div>
-        </div
+        </div>
         </fieldset>
     </form>
 {% endblock %}
