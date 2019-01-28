@@ -76,7 +76,7 @@ $(window).on('load', function() {
     <div class="scroller">
     <table class="table">
       <thead>
-        <tr>
+        <tr class="table-success">
           <th scope="col">opponent</th></th>
           <th scope="col">Score</th>
           <th colspan="2">Status</th>
@@ -84,7 +84,7 @@ $(window).on('load', function() {
       </thead>
       {% if current or current2 %}
           {% for now in current %}
-            <tr>
+            <tr class="table-info">
               <td scope="col">{{ now.player2_name }}</td>
               <td scope="col">{{ now.score }}</td>
               <td colspan="2">{{ now.status }}</td>

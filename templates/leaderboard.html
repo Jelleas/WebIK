@@ -13,7 +13,7 @@
 <b><label for="exampleTextarea"><h1>Leaderboard</h1></label></b>
     <table class="table">
       <thead>
-        <tr>
+        <tr class="table-success">
           <th scope="col">Position</th>
           <th scope="col">Player</th>
           <th scope="col">Games won</th>
@@ -21,7 +21,7 @@
       </thead>
       {% if hoogste %}
         {% for number in hoogste %}
-            <tr>
+            <tr class="table-info">
                 <td>{{loop.index}}</td>
                 <td>{{ number.username }}</td>
                 <td>{{ number.games_won }}</td>

@@ -13,14 +13,14 @@
 <b><label for="exampleTextarea"><h1>History</h1></label></b>
     <table class="table">
       <thead>
-        <tr>
+        <tr class="table-success">
           <th scope="col">Players</th>
           <th scope="col">Result</th>
         </tr>
       </thead>
       {% if history %}
           {% for game in history %}
-            <tr>
+            <tr class="table-info">
                 <td>{{ game.matchup }}</td>
                 <td>{{ game.status }}</td>
             </tr>
