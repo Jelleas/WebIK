@@ -82,17 +82,19 @@ def init_game(game_id):
     else:
         return False
 
-def send_mail(requester_mail,new_password):
+
+def send_mail(requester_mail, new_password):
     """To use this function, one must first login to gmail on the device. The mail and password are provided below, the phone number associated with the account is 0641493584."""
-    import smtplib, ssl
+    import smtplib
+    import ssl
     "Set up the connection to send the e-mail and "
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "GeographyGuruRecovery@gmail.com"
     password = "webIK201904"
-    subject="Geography Guru Password Reset"
-    message=f"Dear user,\n\nA new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. With all due respect, maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!\n\nBest regards,\n\nThe shambles that is called the development team of Geography Guru"
-    text='Subject: {}\n\n{}'.format(subject, message)
+    subject = "Geography Guru Password Reset"
+    message = f"Dear user,\n\nA new password was requested. \nYour new password is: {new_password}\n\nWe hope to see you back again soon. With all due respect, maybe you should play the game a bit more. Maybe then you wouldn't forget your password as often!\n\nBest regards,\n\nThe shambles that is called the development team of Geography Guru"
+    text = 'Subject: {}\n\n{}'.format(subject, message)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
@@ -146,10 +148,10 @@ def find_rows(username):
     return db.execute("SELECT * FROM users WHERE username = :username COLLATE NOCASE", username=username)
 
 
-def create_user(username, hashed, games_won,mail):
+def create_user(username, hashed, games_won, mail):
     """Adds a new user to the database."""
     db.execute("INSERT INTO users (username, hash, games_won,mail) VALUES (:username, :hashed, :games_won,:mail)",
-               username=username, hashed=hashed, games_won=games_won,mail=mail)
+               username=username, hashed=hashed, games_won=games_won, mail=mail)
 
 
 def check_exists(username):
@@ -161,17 +163,21 @@ def all_ids():
     """Return all user_ids in the database."""
     return db.execute("SELECT id FROM users")
 
+
 def find_email(username):
     """Find the email address associated with a given username."""
     return db.execute("SELECT mail FROM users WHERE username= :username COLLATE NOCASE", username=username)
+
 
 def mail_to_name(mail):
     """Find the username associated with an email adress."""
     return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)[0]["username"]
 
+
 def reset_password(new_password, username):
     """Update a user's password."""
     db.execute("UPDATE users SET hash= :password WHERE username= :username", password=new_password, username=username)
+
 
 def all_correct(game_id, to_beat, user_id, players):
     """Handles the edge case in which a user has all questions correct."""
@@ -186,6 +192,7 @@ def all_correct(game_id, to_beat, user_id, players):
     elif to_beat == 50:
         result = "Draw: " + "(" + str(50) + "-" + str(50) + ")"
         finish_game(result, game_id)
+
 
 def create_result(player1, score1, score2, player2):
     """Return the result in of the game in a nicely formatted manner"""
@@ -203,14 +210,17 @@ def updatepassword(newpassword, user_id):
     """update the users' password"""
     db.execute("UPDATE users SET hash = :newhash WHERE id= :user_id", newhash=newpassword, user_id=user_id)
 
+
 def total_games(user_id):
     """Find how many games the user has played"""
     return len(db.execute("SELECT game_id FROM games WHERE (player1_id= :user_id OR player2_id = :user_id) AND (status != 'active' AND status != 'starting')", user_id=user_id))
+
 
 def correct_password(password, user_id):
     """Make sure a user's password is correct."""
     hashed = db.execute("SELECT hash FROM users WHERE id = :user_id", user_id=user_id)[0]["hash"]
     return pwd_context.verify(password, hashed)
+
 
 def mail_exists(mail):
     """Look up an email address to see if it exists."""

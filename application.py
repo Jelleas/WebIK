@@ -122,11 +122,11 @@ def forgottenpassword():
                 send_mail(requester_mail, new_password)
                 return render_template("login.html")
             except:
-                return render_template("forgottenpassword.html", mailError = 2)
+                return render_template("forgottenpassword.html", mailError=2)
         else:
-            return render_template("forgottenpassword.html", mailError = 1)
+            return render_template("forgottenpassword.html", mailError=1)
     else:
-        return render_template("forgottenpassword.html", mailError = 0)
+        return render_template("forgottenpassword.html", mailError=0)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -145,7 +145,7 @@ def register():
         elif request.form.get("confirmation") != request.form.get("password"):
             return render_template("register.html", regError=5)
         if "@" not in request.form.get("mail"):
-            return render_template("register.html", regError = 6)
+            return render_template("register.html", regError=6)
 
         # check to see whether username/mail already exists
         elif len(check_exists(request.form.get("username"))):
@@ -221,7 +221,8 @@ def play():
                 return redirect(url_for("index"))
             else:
                 # create the result
-                result = create_result(find_username(players[0]["player1_id"]), to_beat, score, find_username(session.get("user_id")))
+                result = create_result(find_username(players[0]["player1_id"]), to_beat,
+                                       score, find_username(session.get("user_id")))
                 finish_game(result, game_id)
 
                 # if player 2 is playing, check who won
