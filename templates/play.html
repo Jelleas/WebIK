@@ -13,14 +13,14 @@
     <tr class="table-info">
         {% for answer in answers[:1] %}
             <td>
-                <button id=ans1 class="btn btn-eerste" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button id=ans1 class="btn btn-first" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
     <tr>
         {% for answer in answers[1:2] %}
             <td>
-                <button id=ans2 class="btn btn-tweede" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button id=ans2 class="btn btn-second" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
@@ -28,18 +28,18 @@
     <tr>
         {% for answer in answers[2:3] %}
             <td>
-                <button id=ans3 class="btn btn-derde" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button id=ans3 class="btn btn-third" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
           {% endfor %}
     </tr>
     <tr>
         {% for answer in answers[3:4] %}
             <td>
-                <button id=ans4 class="btn btn-vierde" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
+                <button id=ans4 class="btn btn-fourth" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
             </td>
         {% endfor %}
     </tr>
-    <div class="spelinfo">
+    <div class="gameinfo">
         {% if to_beat != 999 %}
             score to beat: {{ to_beat }}
         {% endif %}

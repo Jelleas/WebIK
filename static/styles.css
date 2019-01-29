@@ -237,7 +237,7 @@ main td
   text-shadow: 0 0 0px black;
 }
 
-.spelinfo {
+.gameinfo {
   color: white;
   font-size: 30px;
   position:absolute;
@@ -248,7 +248,7 @@ main td
   text-shadow: 0 0 0px black;
 }
 
-[class="btn btn-eerste"] {
+[class="btn btn-first"] {
   width: 17.5%;
   height: 17.5%;
   margin-left: 35px;
@@ -265,7 +265,7 @@ main td
   overflow: auto;
 }
 
-[class="btn btn-tweede"] {
+[class="btn btn-second"] {
   width: 17.5%;
   height: 17.5%;
   margin-left: 35px;
@@ -282,7 +282,7 @@ main td
   overflow: auto;
 }
 
-[class="btn btn-derde"] {
+[class="btn btn-third"] {
   width: 17.5%;
   height: 17.5%;
   margin-left: 35px;
@@ -299,7 +299,7 @@ main td
   overflow: auto;
 }
 
-[class="btn btn-vierde"] {
+[class="btn btn-fourth"] {
   width: 17.5%;
   height: 17.5%;
   margin-left: 35px;
