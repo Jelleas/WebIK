@@ -212,10 +212,8 @@ def play():
 
             # when the user doesn't give the right answer, check who is playing (player 1 or player 2)
             if to_beat == 999:
-                # if player 1 is playing, save their score
+                # if player 1 is playing, save their score and reset variables
                 update_score(score, game_id, "active")
-
-                # reset variables
                 reset_session(1, game["correct_answer"])
 
                 return redirect(url_for("index"))
@@ -308,7 +306,6 @@ def history():
     for game in range(len(history)):
         matchup = find_matchup(history[game]["game_id"])
         history[game]["matchup"] = matchup[0]["player1_name"] + " vs. " + matchup[0]["player2_name"]
-
     return render_template("history.html", history=history)
 
 
