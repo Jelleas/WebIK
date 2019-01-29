@@ -58,9 +58,11 @@ $(window).on('load', function() {
       <div id="succes" class="alert alert-success" role="alert">Your password has been changed successfully!</div>
     {% endif %}
 
-    Hello {{ username }}, welcome to your personal page! <br>
+    <blockquote class="blockquote text-center">
+      <p class="mb-0">    Hello {{ username }}, welcome to your personal page! <br>
     You have won a total of {{ games_won }} out of {{ played_games }} games.
-    <p> If you want to change your password, you can do so below. </p>
+    <p> If you want to change your password, you can do so below. </p></p>
+    </blockquote>
     <form action="{{ url_for('profile') }}" method="post">
         <div class = test>
         <fieldset>

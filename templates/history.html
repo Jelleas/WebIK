@@ -10,7 +10,7 @@
         </fieldset>
 </form>
 
-<b><label for="exampleTextarea"><h1>History</h1></label></b>
+<b><label for="exampleTextarea"><h1 class="display-3">History</h1></label></b>
     <table class="table">
       <thead>
         <tr class="table-success">
@@ -26,7 +26,9 @@
             </tr>
           {% endfor %}
         {% else %}
+        <tr class="table-info">
           <td colspan="4">No previous games :(</td>
+        </tr>
         {% endif %}
     </thead>
   </div>

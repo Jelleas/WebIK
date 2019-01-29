@@ -15,6 +15,9 @@ body {
 
 }
 
+h1 {
+  color: #38ad53;
+}
 html, body {
     margin: 0;
     height: 100vh;
@@ -226,21 +229,23 @@ main td
      text-align: center;
 }
 .question {
-  color: black;
+  color: white;
   font-size: 32px;
   font-family: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-variant: normal;
   top: 5%;
+  text-shadow: 0 0 0px black;
 }
 
 .spelinfo {
-  color: black;
+  color: white;
   font-size: 30px;
   position:absolute;
   float: left;
   width: 100%;
   text-align: center;
   bottom: 1.5rem;
+  text-shadow: 0 0 0px black;
 }
 
 [class="btn btn-eerste"] {
@@ -352,3 +357,20 @@ size {
   color: black;
 }
 
+.blockquote {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    text-shadow: 0 0 0px black;
+    color: white;
+}
+
+a {
+    color: #fff;
+    text-decoration: underline;
+    background-color: transparent;
+    text-shadow: 0 0 0px black;
+}
+
+a:hover {
+  color: #28a745;
+}
