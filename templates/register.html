@@ -44,6 +44,13 @@ $(window).on('load', function() {
     setTimeout(function() {
       $('#nameTaken').fadeOut('fast');
     }, 5000);}
+
+    if ($("#mailTaken").length != 0){
+    setTimeout(function() {
+      $('#mailTaken').fadeOut('fast');
+    }, 5000);}
+
+
 });
 
 </script>
@@ -74,6 +81,10 @@ $(window).on('load', function() {
 
     {% if regError == 7 %}
       <div id="nameTaken" class="alert alert-danger" role="alert">Username is already taken</div>
+    {% endif %}
+
+    {% if regError == 8 %}
+      <div id="mailTaken" class="alert alert-danger" role="alert">Email address is already taken</div>
     {% endif %}
 
     <form action="{{ url_for('register') }}" method="post">

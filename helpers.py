@@ -211,3 +211,7 @@ def correct_password(password, user_id):
     """Make sure a user's password is correct."""
     hashed = db.execute("SELECT hash FROM users WHERE id = :user_id", user_id=user_id)[0]["hash"]
     return pwd_context.verify(password, hashed)
+
+def mail_exists(mail):
+    """Look up an email address to see if it exists."""
+    return db.execute("SELECT * FROM users WHERE mail = :mail", mail=mail)

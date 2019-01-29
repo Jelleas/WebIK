@@ -147,9 +147,11 @@ def register():
         if "@" not in request.form.get("mail"):
             return render_template("register.html", regError = 6)
 
-        # check to see whether username already exists
+        # check to see whether username/mail already exists
         elif len(check_exists(request.form.get("username"))):
             return render_template("register.html", regError=7)
+        elif mail_exists(request.form.get("mail")):
+            return render_template("register.html", regError=8)
 
         games_won = 0
 
