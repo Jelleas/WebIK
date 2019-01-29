@@ -11,33 +11,25 @@
 
     <p class="question">{{ question|safe }}<p/>
     <tr class="table-info">
-        {% for answer in answers[:1] %}
-            <td>
-                <button id=ans1 class="btn btn-first" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
-            </td>
-        {% endfor %}
+        <td>
+            <button id=ans1 class="btn btn-first" value="{{ answers[0] }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answers[0]|safe }}</button>
+        </td>
     </tr>
     <tr>
-        {% for answer in answers[1:2] %}
-            <td>
-                <button id=ans2 class="btn btn-second" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
-            </td>
-        {% endfor %}
+        <td>
+            <button id=ans2 class="btn btn-second" value="{{ answers[1] }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answers[1]|safe }}</button>
+        </td>
     </tr>
     <br>
     <tr>
-        {% for answer in answers[2:3] %}
-            <td>
-                <button id=ans3 class="btn btn-third" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
-            </td>
-          {% endfor %}
+        <td>
+            <button id=ans3 class="btn btn-third" value="{{ answers[2] }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answers[2]|safe }}</button>
+        </td>
     </tr>
     <tr>
-        {% for answer in answers[3:4] %}
-            <td>
-                <button id=ans4 class="btn btn-fourth" value="{{ answer }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answer|safe }}</button>
-            </td>
-        {% endfor %}
+        <td>
+            <button id=ans4 class="btn btn-fourth" value="{{ answers[3] }}" name="answer" type="submit" formmethod="POST" form="give_answer">{{ answers[3]|safe }}</button>
+        </td>
     </tr>
     <div class="gameinfo">
         {% if to_beat != 999 %}

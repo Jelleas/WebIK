@@ -37,19 +37,18 @@ db = SQL("sqlite:///trivia.db")
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    """Show the users' current games and let them join said games instantly."""
+    """Find all the games where the current user is player 1 or player 2. Also allow the user to join the games in which it's their turn."""
     session["score"] = 0
     # finished == 1 means wrong answer, 2 means lost, 3 means won, 4 means draw, 5 means all answers correct
     finished = session.get("finished")
 
-    # show the users' current games, or sent them to the game they clicked on
+    # show the user's current games, or sent them to the game they clicked on
     if request.method == "GET":
-        # find users' current games
+        # get the user's current games
         user_index = index_info(session.get("user_id"))
         rows = user_index[0]
         rows2 = user_index[1]
 
-        # if the user has active games, show them
         if rows or rows2:
             return render_template("index.html", current=rows, current2=rows2, finished=finished)
         else:
@@ -68,7 +67,7 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """Log user in."""
+    """Compare a username and password against the database and let the user log in if both are correct."""
 
     # forget any user_id
     session.clear()
@@ -80,8 +79,6 @@ def login():
         elif not request.form.get("password"):
             return render_template("login.html", loginerror=2)
         rows = find_rows(request.form.get("username"))
-
-        # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
             return render_template("login.html", loginerror=3)
 
@@ -91,7 +88,6 @@ def login():
         # redirect user to home page
         return redirect(url_for("index"))
 
-    # else if user reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
 
@@ -109,8 +105,9 @@ def logout():
 
 @app.route("/forgottenpassword", methods=["GET", "POST"])
 def forgottenpassword():
-    """Sent a user an email with a new randomly generated password."""
+    """Send a user an email with a new randomly generated password."""
     # For this function to work, one must follow the steps provided in the send_mail function in helpers.py
+
     # Find the user that wants their password reset, create a password, and send an email
     if request.method == "POST":
         requester_mail = request.form.get("email")
@@ -131,7 +128,7 @@ def forgottenpassword():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """Register user."""
+    """Check the user-input and create an account with said input if no errors occured."""
     if request.method == "POST":
         # test user input
         if not request.form.get("username"):
@@ -166,21 +163,20 @@ def register():
 @app.route("/play", methods=["GET", "POST"])
 @login_required
 def play():
-    """Page where users can answers questions."""
+    """Let the user answer question in a streak, checking their answer and increment their score after each turn.
+    Whenever a user makes a mistake, check who is playing and safe their score/end the game based on that."""
+
     # initialize game
     score = session.get("score")
     session["finished"] = 0
     game_id = session.get("game_id")
 
-    # make sure the user is joining a valid game
+    # make sure the user is joining a valid game and is still on a valid turn
     if game_id > 0:
         thisRound = init_game(game_id)
-        # handle edgecase in which the user has all questions correct
-        # if not, create the variables for the current round
         if score >= 50 and thisRound:
             all_correct(game_id, thisRound[2], session.get("user_id"), thisRound[1])
             reset_session(5, "n/a")
-
             return redirect(url_for("index"))
         elif thisRound:
             game = thisRound[0]["results"][score]
@@ -218,16 +214,14 @@ def play():
 
                 return redirect(url_for("index"))
             else:
-                # create the result
+                # If player 2 is playing, save the result
                 result = create_result(find_username(players[0]["player1_id"]), to_beat,
                                        score, find_username(session.get("user_id")))
                 finish_game(result, game_id)
 
-                # if player 2 is playing, check who won
+                # Check who won, add a win to that player's profile, and reset variables
                 if to_beat > score:
-                    # reset variables
                     reset_session(2, game["correct_answer"])
-                    # add a win to the correct users' profile
                     increase_won(players[0]["player1_id"])
                     return redirect(url_for("index"))
                 elif to_beat < score:
@@ -235,10 +229,8 @@ def play():
                     increase_won(session.get("user_id"))
                     return redirect(url_for("index"))
                 elif to_beat == score:
-                    # create the result
-                    result = F"Draw: ({score}-{score})"
+                    result = F"Draw: {to_beat}-{score}"
                     finish_game(result, game_id)
-                    # reset variables
                     reset_session(4, game["correct_answer"])
                     return redirect(url_for("index"))
 
@@ -246,8 +238,8 @@ def play():
 @app.route("/find_game", methods=["GET", "POST"])
 @login_required
 def find_game():
-    """Allow the user to search for opponents"""
-    # create variables
+    """Allow the user to search for opponents based on their username. The search is not case sensitive and uses wildcards."""
+    # set variables
     session["score"] = 0
     session["finished"] = 0
 
@@ -265,25 +257,24 @@ def find_game():
 @app.route("/browse_users", methods=["GET", "POST"])
 @login_required
 def browse_users():
-    """Show the user all matching users and let them invite them."""
-    # create variables
+    """Show the user the users matching their search request, get said user's IDs and let the searching user invite others based on their ID."""
+    # set variables
     results = session.get("results")
     session["finished"] = 0
     session["score"] = 0
 
     if request.method == "POST":
+        # check which button was pressed
         if request.form["invite_id"] != "back":
             # find which user was invited
             invite_id = int(request.form.get("invite_id"))
 
             # check input
             if invite_id == session.get("user_id"):
-                error = "Unable to invite yourself"
-                return render_template("browse_users.html", results=results, error=error)
+                return render_template("browse_users.html", results=results, error="Unable to invite yourself")
             else:
-                # create a game and lookup the game id
+                # start a game and save the game id
                 session["game_id"] = create_game(session.get("user_id"), invite_id)
-                # put the player in-game
                 return redirect(url_for("play"))
         else:
             return redirect(url_for("find_game"))
@@ -294,12 +285,12 @@ def browse_users():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    """Shows the user their recent matches."""
-
+    """Shows the user their 8 most recent matches."""
+    # set variables
     session["score"] = 0
     session["finished"] = 0
 
-    # find the users' recent games that are done
+    # find the user's recent games that are done
     history = user_history(session.get("user_id"))
 
     # find the usernames of the players involved in the matches
@@ -313,7 +304,7 @@ def history():
 @login_required
 def leaderboard():
     """Shows the 8 players with the most games won."""
-    # create variables
+    # set variables
     session["score"] = 0
     session["finished"] = 0
 
@@ -325,8 +316,8 @@ def leaderboard():
 @app.route("/_instaplay", methods=["GET"])
 @login_required
 def instaplay():
-    """Let the user play against a random user."""
-
+    """Select a random user from the database based on ID and create a game with the current user and them."""
+    # set variables
     session["score"] = 0
     session["finished"] = 0
 
@@ -344,7 +335,6 @@ def instaplay():
 
     # create a game with the user id and the random id and look up the game id
     session["game_id"] = create_game(session.get("user_id"), invite_id)
-    # put the player in-game
     return redirect(url_for("play"))
 
 
@@ -352,12 +342,15 @@ def instaplay():
 @login_required
 def profile():
     """Change password of the user"""
+    # set variables
+    session["score"] = 0
+    session["finished"] = 0
 
     username = find_username(session.get("user_id"))
     games_won = find_won(session.get("user_id"))
     played_games = total_games(session.get("user_id"))
 
-    # ensure validate input
+    # ensure valid input
     if request.method == "POST":
         if not request.form.get("newpassword"):
             return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=1)

@@ -84,10 +84,9 @@ def init_game(game_id):
 
 
 def send_mail(requester_mail, new_password):
-    """To use this function, one must first login to gmail on the device. The mail and password are provided below, the phone number associated with the account is 0641493584."""
+    """To use this function, one must sometimes first login to gmail on the device. The mail and password are provided below, the phone number associated with the account is 0641493584."""
     import smtplib
     import ssl
-    "Set up the connection to send the e-mail and "
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "GeographyGuruRecovery@gmail.com"
@@ -207,7 +206,7 @@ def reset_session(finishCode, correctAnswer):
 
 
 def updatepassword(newpassword, user_id):
-    """update the users' password"""
+    """update the user's password"""
     db.execute("UPDATE users SET hash = :newhash WHERE id= :user_id", newhash=newpassword, user_id=user_id)
 
 

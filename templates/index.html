@@ -38,19 +38,19 @@ $(window).on('load', function() {
 </script>
 
     {% if finished[0] == 1 %}
-      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! The right answer was: {{ finished[1] }}</div>
+      <div id="wrong" class="alert alert-danger" role="alert">Looks like you got that one wrong bud! The right answer was: {{ finished[1]|safe }}</div>
     {% endif %}
 
     {% if finished[0] == 2 %}
-      <div id="lost" class="alert alert-danger" role="alert">You lost! What a bummer... But don't get discouraged! You'll get 'em next time! The right answer was: {{ finished[1] }}</div>
+      <div id="lost" class="alert alert-danger" role="alert">You lost! What a bummer... But don't get discouraged! You'll get 'em next time! The right answer was: {{ finished[1]|safe }}</div>
     {% endif %}
 
     {% if finished[0] == 3 %}
-      <div id="won" class="alert alert-success" role="alert">You won! Nice job! <img src="https://thumbs.gfycat.com/EmptyAdoredDutchshepherddog-size_restricted.gif" id="wingif"> The answer to that last question was: {{ finished[1] }}</div>
+      <div id="won" class="alert alert-success" role="alert">You won! Nice job! <img src="https://thumbs.gfycat.com/EmptyAdoredDutchshepherddog-size_restricted.gif" id="wingif"> The answer to that last question was: {{ finished[1]|safe }}</div>
     {% endif %}
 
     {% if finished[0] == 4 %}
-      <div id="draw" class="alert alert-warning" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins! The right answer was: {{ finished[1] }}</div>
+      <div id="draw" class="alert alert-warning" role="alert">It's a draw! Make sure to rematch your opponent to decide who wins! The right answer was: {{ finished[1]|safe }}</div>
     {% endif %}
 
     {% if finished[0] == 5 %}
@@ -73,7 +73,7 @@ $(window).on('load', function() {
     <table class="table">
       <thead>
         <tr class="table-success">
-          <th scope="col">opponent</th></th>
+          <th scope="col">Opponent</th></th>
           <th scope="col">Score</th>
           <th colspan="2">Status</th>
         </tr>
