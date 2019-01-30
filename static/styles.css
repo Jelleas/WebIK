@@ -127,8 +127,8 @@ html, body {
 
 
 .scroller{
-    /*creates scroller when tables become to large*/
-    max-height: 70%;
+    /*creates scroller when tables become too large*/
+    max-height: 65%;
     overflow-y: scroll;
 }
 
