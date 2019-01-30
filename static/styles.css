@@ -1,37 +1,43 @@
 body {
+    /* creates background images and scales it */
     background-image: url("background3.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    background-size: cover;
+
+    /* makes body text right size and color*/
     text-align: center;
     color: black;
     font-weight: 600;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    /* Full height */
+
+    /* makes body full height */
     height: 100%;
-
-    /* Center and scale the image nicely */
-    background-size: cover;
-
 }
+
 
 h1 {
-  color: #38ad53;
+    /* makes color of headers on pages green */
+    color: #38ad53;
 }
+
 html, body {
+    /* stretches body to entire page*/
     margin: 0;
     height: 100vh;
     overflow: hidden
 }
 
 .jumbotron {
-  /*width: 70%;*/
-  margin: 10%;
-  margin-left: 20%;
-  border: 2px solid #3da562;
+    /* makes text box on index page the right size and margin */
+    margin: 10%;
+    margin-left: 20%;
+    border: 2px solid #3da562;
 }
 
 .display-3 {
+    /* makes color and font-size of header above table on homepage right */
     font-size: 4.5rem;
     font-weight: 300;
     line-height: 1.2;
@@ -45,14 +51,6 @@ html, body {
     color: #faf8f8;
 }
 
-.container
-{
-    /* center contents */
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
 #wingif{
   width: 2.75%;
   height: 2.75%;
@@ -60,68 +58,51 @@ html, body {
 
 .test
 {
-    /* gets box ot align in middle of page*/
+    /* gets box ot align in middle of page */
     margin: auto;
-    border: 3px black;
-    padding: 10px;
     width: 400px;
     height: 250px;
-    /*background: rgb(60,133,198);*/
     vertical-align: middle;
     line-height: 50px;
-
-    position:absolute; /*it can be fixed too*/
+    position:absolute;
     left:0; right:0;
     top:0; bottom:0;
-    margin:auto;
 
-    /*this to solve "the content will not be cut when the window is smaller than the content": */
+    /* this to solve "the content will not be cut when the window is smaller than the content */
     max-width:100%;
     max-height:100%;
     text-align: center;
-
 }
 
 .alert {
+    /* makes alert the right size */
     margin-right: auto;
     margin-left: auto;
     width: 75%;
 }
 
-
 .navbar {
-  min-height: 8rem;
-  width: 100%;
-  border: 0px solid #fff;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  margin-top: 0.2rem;
-  margin-left:0.1rem;
-  margin-right:0.1rem;
+    /* ensures navbar is the right height and has no border */
+    min-height: 8rem;
+    border: 0px solid #fff;
+    text-align: center;
 }
 
 .navbar-brand {
-  padding: 0 15px;
-  height: 80px;
-  line-height: 100px;
+    /* gets brand inside of logged in page nav bar the right size */
+    padding: 0 15px;
+    height: 80px;
+    line-height: 100px;
 }
 
 .navbar-brand img {
-  height: 100%;
+    /* to make the brand image on the log in screen the right size */
+    height: 100%;
 }
 
-.navbar-toggle {
-  /* (80px - button height 34px) / 2 = 23px */
-  margin-top: 23px;
-  padding: 9px 10px;
-}
-
-.navbar navbar-expand-lg navbar-light{
-  background-color: red;
-}
 @media (min-width: 768px) {
   .navbar-nav > li > a {
-    /* (80px - line-height of 27px) / 2 = 26.5px */
+    /* creates right size and font for text inside navbar*/
     padding-top: 26.5px;
     padding-bottom: 26.5px;
     line-height: 27px;
@@ -131,11 +112,13 @@ html, body {
 }
 
 #logout {
+    /* ensures logout button is in middle of page when screen gets smaller*/
     margin-left: auto;
     margin-right: auto;
 }
 
 .table{
+    /* makes tables right size */
     border-radius: 5px;
     width: 50%;
     margin: 0px auto;
@@ -144,220 +127,172 @@ html, body {
 
 
 .scroller{
-  max-height: 70%;
-  overflow-y: scroll;
+    /*creates scroller when tables become to large*/
+    max-height: 70%;
+    overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
-width: 0px;
-background: transparent;
+    /* makes scroller invisble */
+    width: 0px;
+    background: transparent;
 }
 
-table{
-    text-align: center;
-}
-
-table th{
-  background-color: #aaaaaa87;
-}
-
-table td{
-  background-color: #ffffff87;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* Create two unequal columns that floats next to each other */
 .column {
-  float: left;
-  padding: 10px;
-  height: 100%; /* Should be removed. Only for demonstration */
+    /* creates two columns on homepage*/
+    float: left;
+    padding: 10px;
 }
 
 .left {
-  width: 40%;
-  /*line-height: 200px;*/
-  /*margin: auto;*/
+    /* sets width for left column */
+    width: 40%;
 }
 
 .right {
-  width: 60%;
+    /* sets width for right column */
+    width: 60%;
 }
 
-/* Clear floats after the columns */
 .row {
+    /* makes columns right size */
     width: 100%;
     height: 100vh;
     overflow: hidden;
 }
 
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-
-  }
-}
-
-.form{
-    width: 50%;
-}
-
-.h1 {
-  color: blue;
-}
-
 main .form-control
 {
-    /*center form controls*/
+    /* gets form in beginning of page to center and scale nicely */
     display: inline-block;
-
-    /*override Bootstrap's 100% width for form controls*/
     width: auto;
 }
 
-main img
-{
-     /*constrain images on small screens*/
-    max-width: 100%;
-}
-
-main td
-{
-     /*left-align tables' cells*/
-     text-align: center;
-}
 .question {
-  color: white;
-  font-size: 32px;
-  font-family: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-variant: normal;
-  top: 5%;
-  text-shadow: 0 0 0px black;
+    /* creates right lay-out for the quiz-questions*/
+    color: white;
+    font-size: 32px;
+    font-family: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-variant: normal;
+    top: 5%;
+    text-shadow: 0 0 0px black;
 }
 
 .gameinfo {
-  color: white;
-  font-size: 30px;
-  position:absolute;
-  float: left;
-  width: 100%;
-  text-align: center;
-  bottom: 1.5rem;
-  text-shadow: 0 0 0px black;
+    /* creates right lay-out for in-game info */
+    color: white;
+    font-size: 30px;
+    position:absolute;
+    float: left;
+    width: 100%;
+    text-align: center;
+    bottom: 1.5rem;
+    text-shadow: 0 0 0px black;
 }
 
 [class="btn btn-first"] {
-  width: 17.5%;
-  height: 17.5%;
-  margin-left: 35px;
-  display: block;
-  background-color: green;
-  position: fixed;
-  top: 40%;
-  left: 37%;
-  margin-top: -50px;
-  margin-left: -100px;
-  font-size: 2.5vw;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  overflow: auto;
+    /* creates right lay-out and margin for first button and text inside of the first button*/
+    width: 17.5%;
+    height: 17.5%;
+    display: block;
+    background-color: green;
+    position: fixed;
+    top: 40%;
+    left: 37%;
+    margin-top: -50px;
+    margin-left: -100px;
+    font-size: 2.5vw;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    overflow: auto;
 }
 
 [class="btn btn-second"] {
-  width: 17.5%;
-  height: 17.5%;
-  margin-left: 35px;
-  display: block;
-  background-color: blue;
-  position: fixed;
-  top: 40%;
-  left: 57%;
-  margin-top: -50px;
-  margin-left: -100px;
-  font-size: 2.5vw;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  overflow: auto;
+    /* creates right lay-out and margin for second button and text inside of the second button*/
+    width: 17.5%;
+    height: 17.5%;
+    display: block;
+    background-color: blue;
+    position: fixed;
+    top: 40%;
+    left: 57%;
+    margin-top: -50px;
+    margin-left: -100px;
+    font-size: 2.5vw;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    overflow: auto;
 }
 
 [class="btn btn-third"] {
-  width: 17.5%;
-  height: 17.5%;
-  margin-left: 35px;
-  display: block;
-  background-color: red;
-  position: fixed;
-  top: 65%;
-  left: 37%;
-  margin-top: -50px;
-  margin-left: -100px;
-  font-size: 2.5vw;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  overflow: auto;
+    /* creates right lay-out and margin for third button and text inside of the third button*/
+    width: 17.5%;
+    height: 17.5%;
+    display: block;
+    background-color: red;
+    position: fixed;
+    top: 65%;
+    left: 37%;
+    margin-top: -50px;
+    margin-left: -100px;
+    font-size: 2.5vw;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    overflow: auto;
 }
 
 [class="btn btn-fourth"] {
-  width: 17.5%;
-  height: 17.5%;
-  margin-left: 35px;
-  display: block;
-  background-color: purple;
-  position: fixed;
-  top: 65%;
-  left: 57%;
-  margin-top: -50px;
-  margin-left: -100px;
-  font-size: 2.5vw;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  overflow: auto;
->>>>>>> 2790433441ec506c91457c20961fe52ac9efc1ad
+    /* creates right lay-out and margin for fourth button and text inside of the fourth button*/
+    width: 17.5%;
+    height: 17.5%;
+    margin-left: 35px;
+    display: block;
+    background-color: purple;
+    position: fixed;
+    top: 65%;
+    left: 57%;
+    margin-top: -50px;
+    margin-left: -100px;
+    font-size: 2.5vw;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    overflow: auto;
 }
 
 #ans1:hover {
-background-color: darkgreen;
-text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    /* creates color of hover for matching button color */
+    background-color: darkgreen;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #ans2:hover {
-background-color:  #0000b3;
-text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    /* creates color of hover for matching button color */
+    background-color:  #0000b3;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #ans3:hover {
-background-color: darkred;
-text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    /* creates color of hover for matching button color */
+    background-color: darkred;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #ans4:hover {
-background-color: #330033;
-text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    /* creates color of hover for matching button color */
+    background-color: #330033;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
-
 
 #welcometext{
-  resize: none;
-  background-color: #ffffff87;
-  font-weight: 600;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-
-size {
-  width: 70px;
-  height: 30px;
-<<<<<<< HEAD
-=======
-}
->>>>>>> c8fa8c24a938f73406aeed44cf03e8f53f913577
-
-.textcolor {
-  color: black;
+    /* creates right size and color for welcometext */
+    resize: none;
+    background-color: #ffffff87;
+    font-weight: 600;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .blockquote {
+    /* makes text on profile apge white and readable */
     margin-bottom: 1rem;
     font-size: 1.25rem;
     text-shadow: 0 0 0px black;
@@ -365,6 +300,7 @@ size {
 }
 
 a {
+    /* makes text on log in page right color */
     color: #fff;
     text-decoration: underline;
     background-color: transparent;
@@ -372,5 +308,6 @@ a {
 }
 
 a:hover {
-  color: #28a745;
+    /* creates hover color for text on log in page */
+    color: #28a745;
 }
