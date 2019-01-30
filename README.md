@@ -33,4 +33,4 @@ Naam groepslid | Deel
 Rabie | 
 Andy | html/css + kleine bijdrage python wachtwoord wijzigen
 Roan | 
-Eva |
+Eva | Leaderbord, homepagina en layout
