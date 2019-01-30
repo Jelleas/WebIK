@@ -30,7 +30,7 @@ Het moeilijkste deel van de applicatie wordt het uitnodigen van een tegenstander
 ### Werkverdeling
 Naam groepslid | Deel
 ---------------|-----
-Rabie | 
-Andy | html/css + kleine bijdrage python wachtwoord wijzigen
-Roan | 
-Eva | Leaderbord, homepagina en layout
+Rabie | Login, logout en forgottenpassword.
+Andy | Profile en playpagina.
+Roan | Playfunctie en multiplayer.
+Eva | Leaderbord, homepagina en layout.
