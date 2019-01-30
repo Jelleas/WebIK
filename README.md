@@ -7,7 +7,7 @@
 Onze website is een site waar gebruikers elkaar kunnen uitdagen met Triviavragen over aardrijkskunde. De gebruiker krijgt voor elke goed beantwoorde vraag punten en de gebruiker blijft vragen krijgen tot hij/zij een fout maakt. Het unieke aan onze website is dat er geen limiet zit aan het aantal vragen, zolang de speler alles goed heeft kan hij/zij door blijven spelen.  
  
 ### Features
-Een complete lijst met features is te vinden in design.md
+Een complete lijst met features is te vinden in design.md: [GitHub](https://github.com/Rabie4/WEBIK/blob/master/DESIGN.md).
 
 ### Screenshot applicatie
 ![Screenshot of application](https://github.com/Rabie4/WEBIK/blob/master/doc/Screenshot%20applicatie.png)
