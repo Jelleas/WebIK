@@ -170,7 +170,7 @@ def mail_to_name(mail):
 
 def reset_password(new_password, user_id):
     """Update a user's password."""
-    db.execute("UPDATE users SET hash= :password WHERE user_id= :user_id", password=new_password, user_id=user_id)
+    db.execute("UPDATE users SET hash= :password WHERE id= :user_id", password=new_password, user_id=user_id)
 
 
 def all_correct(game_id, to_beat, user_id, players):
