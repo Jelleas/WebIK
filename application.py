@@ -330,7 +330,7 @@ def instaplay():
 
     # keep choosing a random id while the random id is the same as the user's id
     while invite_id == session.get("user_id"):
-        random_id = random.randrange(len(ids))
+        random_id = random.randrange(len(ids))-1
         invite_id = ids[random_id]["id"]
 
     # create a game with the user id and the random id and look up the game id
@@ -362,7 +362,7 @@ def profile():
             return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=4)
         else:
             # update the user's password and let them know
-            updatepassword(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
+            reset_password(pwd_context.hash(request.form.get("newpassword")), session.get("user_id"))
             return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=5)
     else:
         return render_template("profile.html", username=username, games_won=games_won, played_games=played_games, validate_input=0)

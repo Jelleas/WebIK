@@ -163,11 +163,6 @@ def all_ids():
     return db.execute("SELECT id FROM users")
 
 
-def find_email(username):
-    """Find the email address associated with a given username."""
-    return db.execute("SELECT mail FROM users WHERE username= :username COLLATE NOCASE", username=username)
-
-
 def mail_to_name(mail):
     """Find the username associated with an email adress."""
     return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)[0]["username"]
@@ -186,10 +181,10 @@ def all_correct(game_id, to_beat, user_id, players):
     elif to_beat < 50:
         winner = find_username(session.get("user_id"))
         loser = find_username(players[0]["player1_id"])
-        result = winner + " " + str(50) + "-" + str(to_beat) + " " + loser
+        result = F"{winner} 50 - {str(to_beat)} {loser}"
         finish_game(result, game_id)
     elif to_beat == 50:
-        result = "Draw: " + "(" + str(50) + "-" + str(50) + ")"
+        result = "Draw: (50-50)"
         finish_game(result, game_id)
 
 
@@ -203,11 +198,6 @@ def reset_session(finishCode, correctAnswer):
     session["score"] = 0
     session["game_id"] = 0
     session["finished"] = [finishCode, correctAnswer]
-
-
-def updatepassword(newpassword, user_id):
-    """update the user's password"""
-    db.execute("UPDATE users SET hash = :newhash WHERE id= :user_id", newhash=newpassword, user_id=user_id)
 
 
 def total_games(user_id):
