@@ -10,7 +10,7 @@ Onze website is een site waar gebruikers elkaar kunnen uitdagen met Triviavragen
 Een complete lijst met features is te vinden in design.md
 
 ### Screenshot applicatie
-![Screenshot of application|20x20](https://github.com/Rabie4/WEBIK/blob/master/doc/Screenshot%20applicatie.png)
+![Screenshot of application](https://github.com/Rabie4/WEBIK/blob/master/doc/Screenshot%20applicatie.png)
 
 ### Minimum viable product
 Het maken van een trivia-website kan op veel manieren gebeuren. Echter, er zijn meerdere features waaraan de website op zijn minst moet voldoen om bruikbaar te zijn. De meest vanzelfsprekende hiervan is misschien de mogelijkheid voor gebruikers om zich te registreren en zich aan te melden. Ook moet het mogelijk zijn voor gebruikers om uit een groot aantal vragen, een kleinere selectie vragen te beantwoorden. Hiervoor moet er gebruikt worden gemaakt van een API/database met trivia-vragen. Er moet vervolgens worden gecontroleerd of de gebruiker de antwoorden goed of fout heeft beantwoord. Daarnaast moet worden opgeslagen hoeveel vragen de gebruiker goed heeft in de huidige ronde, om zo mogelijk van andere gebruikers te kunnen winnen. De gebruiker moet andere spelers dus kunnen uitdagen. Verder moet de website een logische lay-out hebben en gebruikersvriendelijk zijn.  Als aan deze eigenschappen wordt voldaan, is er een bruikbaar product geleverd. Andere features zijn dus optioneel.
