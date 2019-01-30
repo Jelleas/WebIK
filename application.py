@@ -112,6 +112,8 @@ def forgottenpassword():
     if request.method == "POST":
         requester_mail = request.form.get("email")
         username = mail_to_name(requester_mail)
+
+        # Make sure an account with the given email exists
         if username:
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
             reset_password(pwd_context.hash(new_password), username)
@@ -246,11 +248,9 @@ def find_game():
     if request.method == "GET":
         return render_template("find_game.html")
     else:
-        # if the user typed in a username, look it up in the database
+        # look the username up in the database and show the user the results
         username = request.form.get("user")
         session["results"] = search_user(username)
-
-        # if the username exists, save it and show the user the results
         return redirect(url_for("browse_users"))
 
 
