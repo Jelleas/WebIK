@@ -108,7 +108,7 @@ def update_score(score, game_id, status):
 
 def search_user(username):
     """find the information of a user (after searching for opponents)"""
-    return db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 10", username=username+"%")
+    return db.execute("SELECT id, username FROM users WHERE username LIKE :username COLLATE NOCASE LIMIT 9", username=username+"%")
 
 
 def user_history(user_id):
