@@ -32,5 +32,9 @@ Naam groepslid | Deel
 ---------------|-----
 Rabie | Login, logout en forgottenpassword.
 Andy | Profile en playpagina.
-Roan | Playfunctie en multiplayer.
+Roan | Playfunctie, history en multiplayer.
 Eva | Leaderbord, homepagina en layout.
+
+
+### Productvideo
+https://drive.google.com/file/d/1nmnAZBKOwTln7yjZIYXaz9VIRvn_8bys/view
