@@ -114,7 +114,7 @@ def forgottenpassword():
         user_id = mail_to_id(requester_mail)
 
         # Make sure an account with the given email exists
-        if username:
+        if user_id:
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
             reset_password(pwd_context.hash(new_password), user_id)
             try:
