@@ -163,9 +163,9 @@ def all_ids():
     return db.execute("SELECT id FROM users")
 
 
-def mail_to_name(mail):
+def mail_to_idmail):
     """Find the username associated with an email adress."""
-    return db.execute("SELECT username FROM users WHERE mail = :mail", mail=mail)[0]["username"]
+    return db.execute("SELECT id FROM users WHERE mail = :mail", mail=mail)[0]["id"]
 
 
 def reset_password(new_password, user_id):

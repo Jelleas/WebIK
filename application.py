@@ -111,12 +111,12 @@ def forgottenpassword():
     # Find the user that wants their password reset, create a password, and send an email
     if request.method == "POST":
         requester_mail = request.form.get("email")
-        username = mail_to_name(requester_mail)
+        user_id = mail_to_id(requester_mail)
 
         # Make sure an account with the given email exists
         if username:
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
-            reset_password(pwd_context.hash(new_password), username)
+            reset_password(pwd_context.hash(new_password), user_id)
             try:
                 send_mail(requester_mail, new_password)
                 return render_template("login.html")
