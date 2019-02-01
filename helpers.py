@@ -163,7 +163,7 @@ def all_ids():
     return db.execute("SELECT id FROM users")
 
 
-def mail_to_idmail):
+def mail_to_id(mail):
     """Find the username associated with an email adress."""
     return db.execute("SELECT id FROM users WHERE mail = :mail", mail=mail)[0]["id"]
 
